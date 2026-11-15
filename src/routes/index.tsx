@@ -150,7 +150,7 @@ function Index() {
                   <input type="radio" name="frete" value={item.id} checked={frete === item.id} onChange={() => setFrete(item.id)} className="h-4 w-4 shrink-0 accent-primary" />
                   {item.id === "sedex" ? (
                     <img
-                      src="https://www.correios.com.br/enviar/precisa-de-ajuda/imagens/correios-de-a-a-z/simbolos-remessa-postal/icones_guia_sedex_preto.png/@@images/image"
+                      src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Sedex_logo.png"
                       alt="Logo oficial SEDEX dos Correios"
                       className="h-12 w-24 shrink-0 object-contain"
                       loading="eager"
