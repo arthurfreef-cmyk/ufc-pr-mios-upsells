@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { QUIZ } from "@/lib/quiz";
 import copo from "@/assets/copo.png";
+import inox from "@/assets/quiz/copoexufc.png.asset.json";
+import tampa from "@/assets/quiz/tampaufc.png.asset.json";
+import alca from "@/assets/quiz/alcaufc.png.asset.json";
 
 export interface QuizProps { onFinish: () => void }
 
@@ -15,10 +18,10 @@ const faq = [
 ];
 
 const features = [
-  { title: "24 HORAS DE GELO", desc: "Aço inox de parede dupla a vácuo. Enche de manhã e o gelo continua até à noite." },
-  { title: "TAMPA COM CANUDO", desc: "Pensada para o dia a dia: academia, trabalho ou carro, sem tirar nada do lugar." },
-  { title: "CHAVEIRO NA ALÇA", desc: "O chaveiro duplo já vem preso na alça. Um detalhe especial do modelo." },
-  { title: "1,15 LITROS", desc: "Capacidade para o dia inteiro, com alça para carregar com uma mão." },
+  { title: "24 HORAS DE GELO", desc: "Aço inox de parede dupla a vácuo para ajudar a manter sua bebida gelada por muito mais tempo.", img: inox.url, alt: "Detalhe do copo térmico em aço inox" },
+  { title: "TAMPA COM CANUDO", desc: "Tampa do modelo com canudo, ideal para acompanhar sua rotina na academia, no trabalho ou no carro.", img: tampa.url, alt: "Tampa original do copo UFC com canudo" },
+  { title: "CHAVEIRO NA ALÇA", desc: "Detalhe do chaveiro duplo preso à alça do copo.", img: alca.url, alt: "Alça original do copo UFC com chaveiro" },
+  { title: "1,15 LITROS", desc: "Capacidade para o dia inteiro, com alça para carregar com uma mão.", img: copo, alt: "Copo Térmico UFC de 1,15 litro" },
 ];
 
 export function Quiz({ onFinish }: QuizProps) {
@@ -110,7 +113,7 @@ export function Quiz({ onFinish }: QuizProps) {
               {features.map((item, i) => (
                 <article key={item.title} className="overflow-hidden border border-white/10 bg-[#0b0b0b]">
                   <div className="flex h-24 items-center justify-center bg-[#111] sm:h-32">
-                    <img src={copo} alt="" width={220} height={285} loading="lazy" decoding="async" className={i === 1 ? "h-20 w-20 object-contain sm:h-28 sm:w-28" : "h-24 w-full object-contain sm:h-32"} />
+                    <img src={item.img} alt={item.alt} width={480} height={320} loading="lazy" decoding="async" className="h-full w-full object-contain p-2 sm:p-3" />
                   </div>
                   <div className="p-3">
                     <h3 className="text-[10px] font-black uppercase text-white sm:text-xs">{item.title}</h3>
