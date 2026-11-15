@@ -33,9 +33,6 @@ export function Quiz({ onFinish }: QuizProps) {
 
         <div className="relative mx-auto mt-7 flex w-full max-w-[230px] items-center justify-center border border-white/15 bg-[#111] p-3 shadow-[9px_9px_0_0_rgba(220,0,18,0.95)] sm:mt-8 sm:max-w-[250px]">
           <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} fetchPriority="high" className="h-56 w-full object-contain sm:h-64" />
-          <span className="absolute bottom-0 right-0 border-l border-t border-primary bg-primary px-3 py-2 text-sm font-extrabold text-primary-foreground">
-            R$ 0,00
-          </span>
         </div>
 
         <div className="mt-8 flex flex-col items-center gap-3">
