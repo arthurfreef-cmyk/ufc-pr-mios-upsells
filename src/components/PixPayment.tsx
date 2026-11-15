@@ -29,8 +29,32 @@ export function PixPayment({ pagamento, successUrl = "/upsell" }: PixPaymentProp
     return () => { active = false; };
   }, [pagamento.codigo]);
   useEffect(() => {
-    if (confirmacao.data?.status === "paid" && successUrl) window.location.replace(successUrl);
-  }, [confirmacao.data?.status, successUrl]);
+    if (confirmacao.data?.status !== "paid") return;
+
+    // Purchase is emitted only after the provider API confirms the paid status.
+    const storageKey = `meta_purchase_${pagamento.pedidoId}`;
+    try {
+      if (window.localStorage.getItem(storageKey) !== "1") {
+        const pixel = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+        if (typeof pixel === "function") {
+          pixel("track", "Purchase", {
+            value: pagamento.total,
+            currency: "BRL",
+            content_name: "Copo Térmico UFC 1,15L",
+            content_type: "product",
+          });
+          window.localStorage.setItem(storageKey, "1");
+        }
+      }
+    } catch {
+      // Storage can be unavailable; the verified payment flow must still continue.
+    }
+
+    if (successUrl) {
+      const redirectTimer = window.setTimeout(() => window.location.replace(successUrl), 800);
+      return () => window.clearTimeout(redirectTimer);
+    }
+  }, [confirmacao.data?.status, pagamento.pedidoId, pagamento.total, successUrl]);
   async function copiar() {
     try { await navigator.clipboard.writeText(pagamento.codigo); setCopiado(true); }
     catch { setErro("Selecione e copie o código no campo abaixo."); }
