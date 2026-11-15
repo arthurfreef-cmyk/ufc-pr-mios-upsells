@@ -125,7 +125,14 @@ fbq('track', 'PageView');`,
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.pixelId = "6af93e3d376c6edffd5ad85d";
+            __html: `var utmifyUtms = document.createElement("script");
+utmifyUtms.src = "https://cdn.utmify.com.br/scripts/utms/latest.js";
+utmifyUtms.setAttribute("data-utmify-prevent-xcod-sck", "");
+utmifyUtms.setAttribute("data-utmify-prevent-subids", "");
+utmifyUtms.async = true;
+utmifyUtms.defer = true;
+(document.head || document.documentElement).appendChild(utmifyUtms);
+window.pixelId = "6af93e3d376c6edffd5ad85d";
 var utmifyPixel = document.createElement("script");
 utmifyPixel.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
 utmifyPixel.async = true;
