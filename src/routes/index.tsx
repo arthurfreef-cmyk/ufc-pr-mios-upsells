@@ -236,6 +236,13 @@ function Index() {
                 <span><strong className="block text-sm">Pagamento via Pix</strong><small className="text-xs text-muted-foreground">QR Code e código Pix copia e cola.</small></span>
               </div>
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">O copo principal custa R$ 0,00 por conta da conclusão do desafio. Você paga o frete escolhido e, somente se marcar a oferta, o copo adicional.</p>
+              <div className="mt-4 flex items-start gap-3 rounded-md border border-emerald-500/25 bg-emerald-500/5 p-3">
+                <span aria-hidden="true" className="mt-0.5 text-emerald-400">✓</span>
+                <div>
+                  <strong className="block text-sm text-emerald-400">Envio com rastreamento</strong>
+                  <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Após a postagem, você recebe o código para acompanhar a entrega do pedido.</p>
+                </div>
+              </div>
             </div>
           </section>}
 
