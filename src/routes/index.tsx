@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Quiz } from "@/components/Quiz";
 import { PRODUTO, FRETES, ADICIONAL, calcularTotal, reais, type FreteId } from "@/lib/pedido";
 
 export const Route = createFileRoute("/")({
@@ -25,6 +26,7 @@ function Index() {
   const [frete, setFrete] = useState<FreteId>(FRETES[0].id);
   const [adicional, setAdicional] = useState(false);
   const [enviado, setEnviado] = useState(false);
+  const [quizFeito, setQuizFeito] = useState(false);
   const total = calcularTotal(frete, adicional);
 
   function onSubmit(e: FormEvent) {
@@ -32,11 +34,19 @@ function Index() {
     setEnviado(true);
   }
 
+  if (!quizFeito) {
+    return (
+      <main className="flex min-h-screen items-center bg-background bg-hero">
+        <section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => setQuizFeito(true)} /></section>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-background bg-hero">
       <section className="mx-auto grid max-w-5xl gap-10 px-5 py-12 md:grid-cols-2 md:py-20">
         <div className="flex flex-col justify-center">
-          <span className="text-sm uppercase tracking-widest text-primary">Lançamento</span>
+          <span className="text-sm uppercase tracking-widest text-primary">Seu copo ideal</span>
           <h1 className="mt-2 text-6xl leading-none text-foreground md:text-7xl">{PRODUTO.nome}</h1>
           <p className="mt-4 text-muted-foreground">{PRODUTO.descricao}</p>
           <p className="mt-6 text-5xl font-semibold text-foreground">{reais(PRODUTO.preco)}</p>
