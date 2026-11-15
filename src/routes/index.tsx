@@ -39,7 +39,7 @@ function Index() {
   const freteSelecionado = FRETES.find((item) => item.id === frete) ?? FRETES[0];
 
   useEffect(() => {
-    const cep = dados.cep.replace(/\\D/g, "");
+    const cep = dados.cep.replace(/\D/g, "");
     if (cep.length !== 8) {
       setCepStatus("idle");
       return;
@@ -123,9 +123,9 @@ function Index() {
               <div className="sm:col-span-2">
                 <Label htmlFor="cep">CEP</Label>
                 <Input id="cep" name="cep" autoComplete="postal-code" inputMode="numeric" placeholder="00000-000" maxLength={9} pattern="[0-9]{5}-?[0-9]{3}" value={dados.cep} onChange={(e) => {
-                  const numeros = e.target.value.replace(/\\D/g, "").slice(0, 8);
+                  const numeros = e.target.value.replace(/\D/g, "").slice(0, 8);
                   const cep = numeros.length > 5 ? `${numeros.slice(0, 5)}-${numeros.slice(5)}` : numeros;
-                  if (numeros !== dados.cep.replace(/\\D/g, "")) {
+                  if (numeros !== dados.cep.replace(/\D/g, "")) {
                     setDados((atual) => ({ ...atual, cep, estado: "", endereco: "", bairro: "", cidade: "" }));
                     setFrete("pac");
                   } else {
