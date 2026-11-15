@@ -213,24 +213,16 @@ function Index() {
             </div>
             <div className="rounded-lg border border-white/10 bg-card p-5 sm:p-6">
               <div className="flex items-center justify-between gap-3">
-                <h3 className="font-display text-lg font-black uppercase">Conferir seus dados</h3>
+                <h3 className="font-display text-lg font-black uppercase">Conferir entrega</h3>
                 <span className="text-xs text-muted-foreground">Antes de pagar</span>
               </div>
-              <div className="mt-3 space-y-3 text-sm">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Destinatário</p>
-                  <p className="mt-1 font-medium">{dados.nome}</p>
-                  <p className="text-muted-foreground">{dados.email} · {dados.telefone}</p>
-                </div>
-                <div className="border-t border-white/10 pt-3">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Endereço de entrega</p>
-                  <p className="mt-1 font-medium">{dados.endereco}, {dados.numero}{dados.complemento ? ` — ${dados.complemento}` : ""}</p>
-                  <p className="text-muted-foreground">{dados.bairro} · {dados.cidade}/{dados.estado} · CEP {dados.cep}</p>
-                </div>
+              <div className="mt-3 space-y-2 text-sm">
+                <p className="font-medium">{dados.nome}</p>
+                <p className="text-muted-foreground">{dados.endereco}, {dados.numero}{dados.complemento ? ` — ${dados.complemento}` : ""}, {dados.bairro}, {dados.cidade}/{dados.estado} · CEP {dados.cep}</p>
               </div>
             </div>
             <div className="rounded-lg border border-white/10 bg-card p-5 sm:p-6">
-              <h3 className="font-display text-xl font-black uppercase">Pagamento</h3>
+              <h3 className="font-display text-xl font-black uppercase">Pagamento somente do envio</h3>
               <div className="mt-3 flex items-center gap-3 rounded-md border border-white/10 p-4">
                 <span className="flex h-10 w-10 items-center justify-center rounded bg-primary/15 text-lg font-bold text-primary">PIX</span>
                 <span><strong className="block text-sm">Pagamento via Pix</strong><small className="text-xs text-muted-foreground">QR Code e código Pix copia e cola.</small></span>
