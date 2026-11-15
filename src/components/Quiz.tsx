@@ -75,49 +75,49 @@ export function Quiz({ onFinish }: QuizProps) {
       </header>
 
       {showResult ? (
-        <div className="mx-auto max-w-2xl pb-12 pt-7 text-center sm:pt-10">
-          <div className="mx-auto inline-flex items-center gap-2 border border-primary/60 px-3 py-2 text-[9px] font-bold uppercase tracking-[0.2em] text-primary">
+        <div className="mx-auto max-w-3xl pb-14 pt-8 text-center sm:pt-12">
+          <div className="mx-auto inline-flex items-center gap-2 border border-primary/60 px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
             <span aria-hidden>✦</span> Desafio completo
           </div>
-          <h1 className="mx-auto mt-4 max-w-md font-display text-3xl font-black uppercase leading-[1.02] text-white sm:text-4xl">
+          <h1 className="mx-auto mt-4 max-w-lg font-display text-4xl font-black uppercase leading-[1.02] text-white sm:text-4xl">
             Você ganhou
             <br />o copo UFC
             <br /><span className="text-primary">grátis</span>
           </h1>
 
-          <div className="relative mx-auto mt-6 w-full max-w-[220px] border border-white/15 bg-[#090909] p-2 shadow-[5px_5px_0_0_rgba(220,0,18,0.9)] sm:max-w-[245px]">
+          <div className="relative mx-auto mt-7 w-full max-w-[260px] border border-white/15 bg-[#090909] p-2 shadow-[5px_5px_0_0_rgba(220,0,18,0.9)] sm:max-w-[290px]">
             <div className="absolute -left-1 -top-1 z-10 bg-primary px-2 py-1 text-left text-[10px] font-black leading-tight text-white">
               <span className="block text-[8px] line-through opacity-75">R$ 197</span>R$ 0
             </div>
-            <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} fetchPriority="high" decoding="async" className="h-60 w-full object-contain sm:h-64" />
+            <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} fetchPriority="high" decoding="async" className="h-72 w-full object-contain sm:h-80" />
           </div>
-          <h2 className="mt-5 font-display text-lg font-bold uppercase text-white">Copo Térmico UFC 1,15L</h2>
-          <p className="mt-1 text-[10px] text-white/45">Aço inox de parede dupla + chaveiro duplo</p>
+          <h2 className="mt-6 font-display text-xl font-bold uppercase sm:text-2xl text-white">Copo Térmico UFC 1,15L</h2>
+          <p className="mt-2 text-xs text-white/55 sm:text-sm">Aço inox de parede dupla + chaveiro duplo</p>
 
-          <div className="mx-auto mt-6 grid max-w-md grid-cols-3 gap-2">
-            <div className="border border-white/10 bg-[#101010] px-2 py-3"><span className="block text-lg text-primary">❄</span><b className="block text-[10px] text-white">24 horas</b><span className="text-[9px] text-white/45">de gelo</span></div>
+          <div className="mx-auto mt-7 grid max-w-lg grid-cols-3 gap-3">
+            <div className="border border-white/10 bg-[#101010] px-3 py-4"><span className="block text-2xl text-primary">❄</span><b className="block text-xs text-white sm:text-sm">24 horas</b><span className="text-[11px] text-white/55 sm:text-xs">de gelo</span></div>
             <div className="border border-white/10 bg-[#101010] px-2 py-3"><span className="block text-lg text-primary">♨</span><b className="block text-[10px] text-white">1,15L</b><span className="text-[9px] text-white/45">de capacidade</span></div>
             <div className="border border-white/10 bg-[#101010] px-2 py-3"><span className="block text-lg text-primary">◉</span><b className="block text-[10px] text-white">Aço</b><span className="text-[9px] text-white/45">inox a vácuo</span></div>
           </div>
 
-          <p className="mt-5 text-[10px] font-medium text-white/60">Seu resgate está disponível. Na próxima etapa você verá o valor do envio antes de confirmar.</p>
-          <Button size="lg" className="mt-4 h-12 w-full max-w-[300px] rounded-none bg-primary font-display text-sm font-black uppercase tracking-wider text-white shadow-[4px_4px_0_0_rgba(120,0,0,.9)] hover:bg-primary/90" onClick={onFinish}>
+          <p className="mt-6 text-xs font-medium leading-relaxed text-white/65 sm:text-sm">Seu resgate está disponível. Na próxima etapa você verá o valor do envio antes de confirmar.</p>
+          <Button size="lg" className="mt-5 h-14 w-full max-w-[340px] rounded-none bg-primary font-display text-base font-black uppercase tracking-wider text-white shadow-[4px_4px_0_0_rgba(120,0,0,.9)] hover:bg-primary/90" onClick={onFinish}>
             Resgatar meu copo <span aria-hidden className="ml-2">→</span>
           </Button>
-          <p className="mt-3 text-[9px] text-white/40">◉ Envio rastreado <span className="mx-2 text-primary">•</span> ♧ Entrega em todo Brasil</p>
+          <p className="mt-4 text-[11px] text-white/50">◉ Envio rastreado <span className="mx-2 text-primary">•</span> ♧ Entrega em todo Brasil</p>
 
-          <section className="mt-12 text-left">
-            <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-primary">É o que você ganhou</p>
-            <h2 className="mt-2 font-display text-2xl font-black uppercase leading-none text-white">Não é brinde<br />de plástico.</h2>
-            <div className="mt-5 grid grid-cols-2 gap-2.5">
+          <section className="mt-14 text-left">
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-primary">É o que você ganhou</p>
+            <h2 className="mt-3 font-display text-3xl font-black uppercase leading-[1.02] sm:text-4xl text-white">Não é brinde<br />de plástico.</h2>
+            <div className="mt-6 grid grid-cols-2 gap-3">
               {features.map((item, i) => (
                 <article key={item.title} className="overflow-hidden border border-white/10 bg-[#0b0b0b]">
-                  <div className="flex h-24 items-center justify-center bg-[#111] sm:h-32">
-                    <img src={item.img} alt={item.alt} width={480} height={320} loading="lazy" decoding="async" className="h-full w-full object-contain p-2 sm:p-3" />
+                  <div className="flex h-32 items-center justify-center bg-[#111] sm:h-44">
+                    <img src={item.img} alt={item.alt} width={480} height={320} loading="lazy" decoding="async" className="h-full w-full object-contain p-3 sm:p-4" />
                   </div>
-                  <div className="p-3">
-                    <h3 className="text-[10px] font-black uppercase text-white sm:text-xs">{item.title}</h3>
-                    <p className="mt-1 text-[9px] leading-relaxed text-white/45 sm:text-[10px]">{item.desc}</p>
+                  <div className="p-4 sm:p-5">
+                    <h3 className="text-xs font-black uppercase text-white sm:text-sm">{item.title}</h3>
+                    <p className="mt-2 text-[11px] leading-relaxed text-white/55 sm:text-xs">{item.desc}</p>
                   </div>
                 </article>
               ))}
@@ -129,11 +129,11 @@ export function Quiz({ onFinish }: QuizProps) {
             <h2 className="mt-2 font-display text-2xl font-black uppercase text-white">Antes de resgatar.</h2>
             <div className="mt-4 divide-y divide-white/10 border-y border-white/10">
               {faq.map((item, i) => (
-                <details key={item.q} open={i === 0} className="group py-3">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[10px] font-bold uppercase text-white sm:text-xs">
+                <details key={item.q} open={i === 0} className="group py-4">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-xs font-bold uppercase text-white sm:text-sm">
                     {item.q}<span className="text-sm text-primary group-open:rotate-45">+</span>
                   </summary>
-                  <p className="mt-3 pr-5 text-[10px] leading-relaxed text-white/55 sm:text-xs">{item.a}</p>
+                  <p className="mt-3 pr-5 text-xs leading-relaxed text-white/60 sm:text-sm">{item.a}</p>
                 </details>
               ))}
             </div>
@@ -141,15 +141,15 @@ export function Quiz({ onFinish }: QuizProps) {
 
           <div className="mt-10 border-t border-white/10 pt-7">
             <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-primary">Última chamada</p>
-            <h2 className="mt-2 font-display text-2xl font-black uppercase leading-tight text-white">Seu copo está<br /><span className="text-primary">reservado.</span></h2>
-            <p className="mx-auto mt-3 max-w-sm text-[10px] leading-relaxed text-white/55">O produto sai por R$ 0,00. Você paga apenas a entrega rastreada até a sua casa.</p>
-            <Button size="lg" className="mt-5 h-12 w-full max-w-[300px] rounded-none bg-primary font-display text-sm font-black uppercase tracking-wider text-white hover:bg-primary/90" onClick={onFinish}>
+            <h2 className="mt-3 font-display text-3xl font-black uppercase leading-tight sm:text-4xl text-white">Seu copo está<br /><span className="text-primary">reservado.</span></h2>
+            <p className="mx-auto mt-4 max-w-md text-xs leading-relaxed text-white/60 sm:text-sm">O produto sai por R$ 0,00. Você paga apenas a entrega rastreada até a sua casa.</p>
+            <Button size="lg" className="mt-6 h-14 w-full max-w-[340px] rounded-none bg-primary font-display text-sm font-black uppercase tracking-wider text-white hover:bg-primary/90" onClick={onFinish}>
               Resgatar meu copo <span aria-hidden className="ml-2">→</span>
             </Button>
           </div>
         </div>
       ) : step < 0 && !validating ? (
-        <div className="mx-auto flex min-h-[calc(100svh-130px)] max-w-xl flex-col items-center justify-center py-8 sm:py-10">
+        <div className="mx-auto flex min-h-[calc(100svh-130px)] max-w-2xl flex-col items-center justify-center py-10 sm:py-12">
           <span className="select-none font-display text-6xl font-black italic leading-none tracking-[-0.09em] text-primary sm:text-7xl">UFC</span>
           <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.38em] text-primary sm:text-xs">Desafio exclusivo</p>
           <h1 className="mx-auto mt-3 max-w-lg font-display text-4xl font-bold uppercase leading-[0.98] tracking-wide text-foreground sm:text-5xl md:text-6xl">
@@ -160,14 +160,14 @@ export function Quiz({ onFinish }: QuizProps) {
           <p className="mx-auto mt-4 max-w-md text-xs leading-relaxed text-white/55 sm:mt-5 sm:text-sm">
             Responda algumas perguntas rápidas e descubra como garantir seu Copo Térmico UFC 1,15L.
           </p>
-          <div className="relative mx-auto mt-6 flex w-full max-w-[190px] items-center justify-center border border-primary/70 bg-[#090909] p-2 shadow-[8px_8px_0_0_rgba(220,0,18,0.85)] sm:mt-7 sm:max-w-[215px]">
-            <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} fetchPriority="high" className="h-48 w-full object-contain sm:h-56" />
+          <div className="relative mx-auto mt-6 flex w-full max-w-[230px] items-center justify-center border border-primary/70 bg-[#090909] p-2 shadow-[8px_8px_0_0_rgba(220,0,18,0.85)] sm:mt-7 sm:max-w-[260px]">
+            <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} fetchPriority="high" className="h-56 w-full object-contain sm:h-64" />
             <span className="absolute bottom-2 right-2 bg-primary px-2 py-1 text-[9px] font-bold uppercase text-white">R$ 0,00</span>
           </div>
-          <Button size="lg" className="mt-7 h-12 min-w-[245px] rounded-none bg-primary px-8 font-display text-lg font-bold uppercase tracking-wider text-primary-foreground shadow-[4px_4px_0_0_rgba(120,0,0,0.9)] hover:bg-primary/90 sm:h-14 sm:min-w-[275px]" onClick={start}>
+          <Button size="lg" className="mt-8 h-14 min-w-[270px] rounded-none bg-primary px-8 font-display text-lg font-bold uppercase tracking-wider text-primary-foreground shadow-[4px_4px_0_0_rgba(120,0,0,0.9)] hover:bg-primary/90 sm:h-14 sm:min-w-[275px]" onClick={start}>
             Começar o desafio <span aria-hidden className="ml-2">→</span>
           </Button>
-          <p className="mt-3 text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">9 perguntas <span className="mx-2 text-primary">/</span> 1 minuto <span className="mx-2 text-primary">/</span> Copo UFC</p>
+          <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">9 perguntas <span className="mx-2 text-primary">/</span> 1 minuto <span className="mx-2 text-primary">/</span> Copo UFC</p>
         </div>
       ) : validating ? (
         <div className="flex min-h-[calc(100svh-130px)] flex-col items-center justify-center py-16">
@@ -185,17 +185,17 @@ export function Quiz({ onFinish }: QuizProps) {
       ) : q ? (
         <div className="mx-auto flex min-h-[calc(100svh-130px)] max-w-3xl flex-col items-center justify-center py-9 sm:py-14">
           <div className="mb-8 w-full max-w-2xl">
-            <div className="mb-2 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.22em] text-white/50">
+            <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.22em] text-white/60">
               <span>Desafio UFC <span className="mx-2 text-primary">•</span> Pergunta {step + 1} de {QUIZ.length}</span>
               <span className="text-primary">{progress}%</span>
             </div>
             <div className="h-[3px] w-full bg-white/10"><div className="h-full bg-primary shadow-[0_0_10px_rgba(220,0,18,.7)] transition-all duration-300" style={{ width: `${progress}%` }} /></div>
           </div>
 
-          <div className="w-full max-w-2xl border-l-2 border-primary bg-[#090909]/95 px-5 py-6 text-left shadow-[0_12px_50px_rgba(0,0,0,.45)] sm:px-8 sm:py-8">
+          <div className="w-full max-w-2xl border-l-2 border-primary bg-[#090909]/95 px-5 py-7 text-left shadow-[0_12px_50px_rgba(0,0,0,.45)] sm:px-9 sm:py-9">
             <div className="mb-3 flex items-center gap-2">
               <span className="h-[2px] w-6 bg-primary" />
-              <span className="text-[9px] font-bold uppercase tracking-[0.28em] text-primary">{q.kicker}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-primary">{q.kicker}</span>
             </div>
             <h2 className="max-w-lg font-display text-2xl font-bold uppercase leading-[1.08] text-white sm:text-3xl md:text-4xl">{q.text}</h2>
 
@@ -204,19 +204,19 @@ export function Quiz({ onFinish }: QuizProps) {
                 const active = selected === opt.label;
                 return (
                   <button key={opt.label} type="button" disabled={!!selected} onClick={() => setSelected(opt.label)}
-                    className={`group relative flex min-w-0 flex-col overflow-hidden border text-left transition-all duration-150 ${active ? "border-primary bg-primary/15 shadow-[0_0_18px_rgba(220,0,18,.2)]" : "border-white/10 bg-[#111] hover:border-primary/70 hover:bg-[#191919]"} ${opt.img ? "p-2.5 sm:p-3" : "min-h-12 flex-row items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4"}`}>
+                    className={`group relative flex min-w-0 flex-col overflow-hidden border text-left transition-all duration-150 ${active ? "border-primary bg-primary/15 shadow-[0_0_18px_rgba(220,0,18,.2)]" : "border-white/10 bg-[#111] hover:border-primary/70 hover:bg-[#191919]"} ${opt.img ? "p-2.5 sm:p-3" : "min-h-14 flex-row items-center gap-3 px-4 py-4 sm:px-6 sm:py-5"}`}>
                     {opt.img && <span className="flex aspect-[5/3] w-full items-center justify-center overflow-hidden bg-black"><img src={opt.img} alt={opt.label} width={480} height={288} loading="lazy" decoding="async" fetchPriority="low" className="h-full w-full object-contain p-1 transition-transform duration-300 group-hover:scale-[1.02]" /></span>}
-                    <span className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-white sm:text-sm ${opt.img ? "px-1 pb-1 pt-2" : ""}`}>
-                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center border text-[9px] ${active ? "border-primary bg-primary text-white" : "border-white/20 text-white/50"}`}>{active ? "✓" : String.fromCharCode(65 + index)}</span>
+                    <span className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-white sm:text-base ${opt.img ? "px-1 pb-1 pt-2" : ""}`}>
+                      <span className={`flex h-6 w-6 shrink-0 items-center justify-center border text-[10px] ${active ? "border-primary bg-primary text-white" : "border-white/20 text-white/50"}`}>{active ? "✓" : String.fromCharCode(65 + index)}</span>
                       {opt.label}
                     </span>
                   </button>
                 );
               })}
             </div>
-            <p className="mt-5 text-[9px] uppercase tracking-[0.15em] text-white/35">Selecione uma opção para continuar</p>
+            <p className="mt-6 text-[10px] uppercase tracking-[0.15em] text-white/45">Selecione uma opção para continuar</p>
           </div>
-          <p className="mt-5 text-[9px] font-medium uppercase tracking-[0.18em] text-white/30">Suas respostas ajudam a personalizar sua experiência</p>
+          <p className="mt-6 text-[10px] font-medium uppercase tracking-[0.18em] text-white/40">Suas respostas ajudam a personalizar sua experiência</p>
         </div>
       ) : null}
     </section>
