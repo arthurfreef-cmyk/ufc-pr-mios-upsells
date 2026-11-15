@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicFruitfyWebhookRouteImport } from './routes/api/public/fruitfy-webhook'
+import { Route as UpsellRouteImport } from './routes/upsell'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +24,49 @@ const ApiPublicFruitfyWebhookRoute = ApiPublicFruitfyWebhookRouteImport.update({
   path: '/api/public/fruitfy-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UpsellRoute = UpsellRouteImport.update({
+  id: '/upsell',
+  path: '/upsell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/public/fruitfy-webhook': typeof ApiPublicFruitfyWebhookRoute
+  '/upsell': typeof UpsellRoute
+  '/obrigado': typeof ObrigadoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/public/fruitfy-webhook': typeof ApiPublicFruitfyWebhookRoute
+  '/upsell': typeof UpsellRoute
+  '/obrigado': typeof ObrigadoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/api/public/fruitfy-webhook': typeof ApiPublicFruitfyWebhookRoute
+  '/upsell': typeof UpsellRoute
+  '/obrigado': typeof ObrigadoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/fruitfy-webhook'
+  fullPaths: '/' | '/api/public/fruitfy-webhook' | '/upsell' | '/obrigado'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/fruitfy-webhook'
-  id: '__root__' | '/' | '/api/public/fruitfy-webhook'
+  to: '/' | '/api/public/fruitfy-webhook' | '/upsell' | '/obrigado'
+  id: '__root__' | '/' | '/api/public/fruitfy-webhook' | '/upsell' | '/obrigado'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiPublicFruitfyWebhookRoute: typeof ApiPublicFruitfyWebhookRoute
+  UpsellRoute: typeof UpsellRoute
+  ObrigadoRoute: typeof ObrigadoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicFruitfyWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/upsell': {
+      id: '/upsell'
+      path: '/upsell'
+      fullPath: '/upsell'
+      preLoaderRoute: typeof UpsellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiPublicFruitfyWebhookRoute: ApiPublicFruitfyWebhookRoute,
+  UpsellRoute: UpsellRoute,
+  ObrigadoRoute: ObrigadoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
