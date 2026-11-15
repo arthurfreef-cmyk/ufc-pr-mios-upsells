@@ -93,8 +93,18 @@ function Index() {
             <fieldset className="mt-7 space-y-3">
               <legend className="mb-3 text-sm font-bold uppercase tracking-wide">Escolha o frete</legend>
               {FRETES.map((item) => <label key={item.id} className={cn("flex cursor-pointer items-center justify-between gap-3 rounded-md border p-4 transition-colors", frete === item.id ? "border-primary bg-primary/10" : "border-white/10 hover:border-white/30")}>
-                <span className="flex min-w-0 items-center gap-3"><input type="radio" name="frete" value={item.id} checked={frete === item.id} onChange={() => setFrete(item.id)} className="h-4 w-4 accent-primary" />
-                  <span><strong className="block text-sm">{item.nome}</strong><small className="text-xs text-muted-foreground">{item.prazo}</small></span></span>
+                <span className="flex min-w-0 items-center gap-3">
+                  <input type="radio" name="frete" value={item.id} checked={frete === item.id} onChange={() => setFrete(item.id)} className="h-4 w-4 shrink-0 accent-primary" />
+                  <img
+                    src={item.id === "pac"
+                      ? "https://www.correios.com.br/estrutura-da-pagina/precos-e-prazos/imagens/pac.png"
+                      : "https://www.correios.com.br/estrutura-da-pagina/precos-e-prazos/imagens/sedex.png"}
+                    alt={`Logo oficial ${item.nome} dos Correios`}
+                    className="h-9 w-20 shrink-0 object-contain"
+                    loading="lazy"
+                  />
+                  <span className="min-w-0"><strong className="block text-sm">{item.nome}</strong><small className="text-xs text-muted-foreground">{item.prazo}</small></span>
+                </span>
                 <strong className="shrink-0 text-base">{reais(item.valor)}</strong>
               </label>)}
             </fieldset>
