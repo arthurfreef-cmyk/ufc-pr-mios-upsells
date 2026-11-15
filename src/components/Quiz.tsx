@@ -32,6 +32,21 @@ export function Quiz({ onFinish }: QuizProps) {
   const q = QUIZ[step];
   const progress = step < 0 ? 0 : Math.round(((step + 1) / QUIZ.length) * 100);
 
+  // Antecipar as imagens da próxima pergunta visual para evitar que apareçam atrasadas no celular.
+  useEffect(() => {
+    if (step < 0) return;
+    const nextVisualQuestion = QUIZ.slice(step + 1).find((question) => question.options.some((option) => option.img));
+    if (!nextVisualQuestion) return;
+    const preloaded = nextVisualQuestion.options.flatMap((option) => {
+      if (!option.img) return [];
+      const image = new Image();
+      image.decoding = "async";
+      image.src = option.img;
+      return [image];
+    });
+    return () => { preloaded.forEach((image) => { image.onload = null; image.onerror = null; }); };
+  }, [step]);
+
   useEffect(() => {
     if (!selected) return;
     const timer = window.setTimeout(() => {
@@ -204,8 +219,8 @@ export function Quiz({ onFinish }: QuizProps) {
                 const active = selected === opt.label;
                 return (
                   <button key={opt.label} type="button" disabled={!!selected} onClick={() => setSelected(opt.label)}
-                    className={`group relative flex min-w-0 flex-col overflow-hidden border text-left transition-all duration-150 ${active ? "border-primary bg-primary/15 shadow-[0_0_18px_rgba(220,0,18,.2)]" : "border-white/10 bg-[#111] hover:border-primary/70 hover:bg-[#191919]"} ${opt.img ? "p-2.5 sm:p-3" : "min-h-14 flex-row items-center gap-3 px-4 py-4 sm:px-6 sm:py-5"}`}>
-                    {opt.img && <span className="flex aspect-[5/3] w-full items-center justify-center overflow-hidden bg-black"><img src={opt.img} alt={opt.label} width={480} height={288} loading="lazy" decoding="async" fetchPriority="low" className="h-full w-full object-contain p-1 transition-transform duration-300 group-hover:scale-[1.02]" /></span>}
+                    className={`group relative flex min-w-0 flex-col overflow-hidden border text-left transition-all duration-150 ${active ? "border-primary bg-primary/15 shadow-[0_0_18px_rgba(220,0,18,.2)]" : "border-white/10 bg-[#111] hover:border-primary/70 hover:bg-[#191919]"} ${opt.img ? "p-2 sm:p-3" : "min-h-14 flex-row items-center gap-3 px-4 py-4 sm:px-6 sm:py-5"}` }>
+                    {opt.img && <span className="flex aspect-[4/3] min-h-[112px] w-full items-center justify-center overflow-hidden bg-[#151515] sm:min-h-[180px]"><img src={opt.img} alt={opt.label} width={480} height={360} loading="eager" decoding="async" fetchPriority="high" sizes="(max-width: 640px) 44vw, 280px" className="h-full w-full object-contain p-2 sm:p-3 transition-transform duration-300 group-hover:scale-[1.02]" /></span>}
                     <span className={`flex items-center gap-3 text-sm font-semibold uppercase tracking-wide text-white sm:text-base ${opt.img ? "px-1 pb-1 pt-2" : ""}`}>
                       <span className={`flex h-6 w-6 shrink-0 items-center justify-center border text-[10px] ${active ? "border-primary bg-primary text-white" : "border-white/20 text-white/50"}`}>{active ? "✓" : String.fromCharCode(65 + index)}</span>
                       {opt.label}
