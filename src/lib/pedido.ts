@@ -1,16 +1,15 @@
-/** Valores exibidos na página. Ajuste aqui quando os preços reais forem confirmados. */
-export const PRODUTO = { nome: "Copo Térmico 1,15L", descricao: "Aço inox de parede dupla, mantém a bebida gelada por horas. Tampa com vedação.", preco: 197 } as const;
+/** Valores da oferta de resgate e opções adicionais. */
+export const PRODUTO = { nome: "Copo Térmico UFC 1,15L", descricao: "Aço inox de parede dupla, mantém a bebida gelada por horas. Tampa com vedação.", preco: 0, valorOriginal: 197 } as const;
 export const FRETES = [
-  { id: "pac", nome: "PAC", prazo: "7 a 12 dias úteis", valor: 19.9 },
-  { id: "sedex", nome: "SEDEX", prazo: "2 a 5 dias úteis", valor: 34.9 },
+  { id: "pac", nome: "PAC", prazo: "7 a 12 dias úteis", valor: 9.9 },
+  { id: "sedex", nome: "SEDEX", prazo: "2 a 5 dias úteis", valor: 19.9 },
 ] as const;
-export const ADICIONAL = { nome: "canudo inox + escova", preco: 29.9 } as const;
+export const ADICIONAL = { nome: "Copo Térmico UFC 1,15L adicional", precoOriginal: 197, preco: 47.9 } as const;
 export type FreteId = (typeof FRETES)[number]["id"];
-
-/** Total = produto + frete escolhido + adicional (se marcado). */
+/** O copo do desafio custa R$ 0; total considera frete e adicional opcional. */
 export function calcularTotal(frete: string, adicional: boolean): number {
   const f = FRETES.find((x) => x.id === frete);
   if (!f) throw new Error(`Frete inválido: ${frete}`);
-  return Math.round((PRODUTO.preco + f.valor + (adicional ? ADICIONAL.preco : 0)) * 100) / 100;
+  return Math.round((f.valor + (adicional ? ADICIONAL.preco : 0)) * 100) / 100;
 }
 export const reais = (v: number) => v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
