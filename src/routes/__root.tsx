@@ -122,6 +122,16 @@ fbq('init', '1434545198342625');
 fbq('track', 'PageView');`,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.pixelId = "6af93e3d376c6edffd5ad85d";
+var utmifyPixel = document.createElement("script");
+utmifyPixel.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+utmifyPixel.async = true;
+utmifyPixel.defer = true;
+(document.head || document.documentElement).appendChild(utmifyPixel);`,
+          }}
+        />
         <noscript>
           <img
             height="1"
