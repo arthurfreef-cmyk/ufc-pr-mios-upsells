@@ -116,7 +116,7 @@ function Index() {
               <h2 className="mt-1 font-display text-2xl font-black uppercase">Resumo do pedido</h2>
               <p className="mt-1 text-sm text-muted-foreground">Confira os itens e o valor antes de continuar.</p>
               <div className="mt-5 flex items-center gap-4 border-b border-white/10 pb-5">
-                <div className="flex h-24 w-20 shrink-0 items-center justify-center bg-black/40"><img src={copo} alt={PRODUTO.nome} className="h-full w-full object-contain" /></div>
+                <div className="flex h-24 w-20 shrink-0 items-center justify-center bg-black/40"><img src={copo} alt={PRODUTO.nome} width={1101} height={1428} loading="lazy" decoding="async" className="h-full w-full object-contain" /></div>
                 <div className="min-w-0 flex-1"><strong className="block text-sm">{PRODUTO.nome}</strong><span className="mt-1 block text-xs text-muted-foreground">Prêmio liberado ao concluir o desafio</span><span className="mt-2 inline-block text-xs font-bold uppercase text-emerald-400">Grátis</span></div>
                 <div className="text-right"><span className="block text-xs text-muted-foreground line-through">{reais(PRODUTO.valorOriginal)}</span><strong>{reais(PRODUTO.preco)}</strong></div>
               </div>
