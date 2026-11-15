@@ -86,7 +86,7 @@ export function Quiz({ onFinish }: QuizProps) {
             <div className="absolute -left-1 -top-1 z-10 bg-primary px-2 py-1 text-left text-[10px] font-black leading-tight text-white">
               <span className="block text-[8px] line-through opacity-75">R$ 197</span>R$ 0
             </div>
-            <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} className="h-60 w-full object-contain sm:h-64" />
+            <img src={copo} alt="Copo Térmico UFC 1,15L" width={1101} height={1428} fetchPriority="high" decoding="async" className="h-60 w-full object-contain sm:h-64" />
           </div>
           <h2 className="mt-5 font-display text-lg font-bold uppercase text-white">Copo Térmico UFC 1,15L</h2>
           <p className="mt-1 text-[10px] text-white/45">Aço inox de parede dupla + chaveiro duplo</p>
@@ -110,7 +110,7 @@ export function Quiz({ onFinish }: QuizProps) {
               {features.map((item, i) => (
                 <article key={item.title} className="overflow-hidden border border-white/10 bg-[#0b0b0b]">
                   <div className="flex h-24 items-center justify-center bg-[#111] sm:h-32">
-                    <img src={copo} alt="" className={i === 1 ? "h-20 w-20 object-contain sm:h-28 sm:w-28" : "h-24 w-full object-contain sm:h-32"} />
+                    <img src={copo} alt="" width={220} height={285} loading="lazy" decoding="async" className={i === 1 ? "h-20 w-20 object-contain sm:h-28 sm:w-28" : "h-24 w-full object-contain sm:h-32"} />
                   </div>
                   <div className="p-3">
                     <h3 className="text-[10px] font-black uppercase text-white sm:text-xs">{item.title}</h3>
