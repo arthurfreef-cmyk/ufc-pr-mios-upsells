@@ -80,7 +80,7 @@ export function Quiz({ onFinish }: QuizProps) {
           <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-primary">Etapa final</p>
           <h2 className="mt-3 font-display text-4xl font-bold uppercase leading-none text-white sm:text-5xl">Validando<br /><span className="text-primary">suas respostas</span></h2>
           <div className="mt-7 w-full max-w-xs space-y-3 text-left text-[11px] text-white/65">
-            {["Conferindo suas respostas", "Verificando disponibilidade do prêmio", "Preparando seu resultado"].map((item, i) => (
+            {["Conferindo suas respostas", "Verificando disponibilidade do prêmio", "Preparando seu resultado"].map((item) => (
               <div key={item} className="flex items-center gap-3"><span className="flex h-4 w-4 items-center justify-center bg-primary text-[9px] text-white">✓</span>{item}</div>
             ))}
           </div>
