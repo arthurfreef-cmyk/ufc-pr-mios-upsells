@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { PRODUTO, FRETES, ADICIONAL, calcularTotal, reais } from "@/lib/pedido";
+import { PRODUTO, FRETES, ADICIONAL, calcularTotal, reais, type FreteId } from "@/lib/pedido";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [frete, setFrete] = useState(FRETES[0].id);
+  const [frete, setFrete] = useState<FreteId>(FRETES[0].id);
   const [adicional, setAdicional] = useState(false);
   const [enviado, setEnviado] = useState(false);
   const total = calcularTotal(frete, adicional);
