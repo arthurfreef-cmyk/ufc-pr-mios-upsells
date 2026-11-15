@@ -9,91 +9,140 @@ import { Quiz } from "@/components/Quiz";
 import { PRODUTO, FRETES, ADICIONAL, calcularTotal, reais, type FreteId } from "@/lib/pedido";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Copo Térmico 1,15L — Compre com preço claro" },
-      { name: "description", content: "Copo térmico de aço inox 1,15L. Preço, frete e adicional mostrados antes do pagamento." },
-      { property: "og:title", content: "Copo Térmico 1,15L" },
-      { property: "og:description", content: "Preço, frete e adicional mostrados antes do pagamento." },
-      { property: "og:type", content: "product" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => ({ meta: [
+    { title: "Resgate seu Copo Térmico UFC" },
+    { name: "description", content: "Conclua o desafio e resgate seu copo. Escolha a entrega e confira o pedido antes de finalizar." },
+    { property: "og:title", content: "Resgate seu Copo Térmico UFC" },
+    { property: "og:description", content: "Seu copo do desafio por R$ 0,00. Você escolhe a entrega." },
+    { property: "og:type", content: "product" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: Index,
 });
 
+const etapas = ["Seus dados", "Entrega", "Pagamento"];
+
 function Index() {
-  const [frete, setFrete] = useState<FreteId>(FRETES[0].id);
+  const [frete, setFrete] = useState<FreteId>("pac");
   const [adicional, setAdicional] = useState(false);
+  const [etapa, setEtapa] = useState(0);
   const [enviado, setEnviado] = useState(false);
   const [quizFeito, setQuizFeito] = useState(false);
   const total = calcularTotal(frete, adicional);
+  const freteSelecionado = FRETES.find((item) => item.id === frete)!;
 
-  function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setEnviado(true);
+    if (etapa < 2) {
+      setEtapa((atual) => atual + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else setEnviado(true);
   }
 
-  if (!quizFeito) {
-    return (
-      <main className="flex min-h-screen items-center bg-background bg-hero">
-        <section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => setQuizFeito(true)} /></section>
-      </main>
-    );
-  }
+  if (!quizFeito) return <main className="flex min-h-screen items-center bg-background bg-hero"><section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => setQuizFeito(true)} /></section></main>;
 
   return (
-    <main className="min-h-screen bg-background bg-hero">
-      <section className="mx-auto grid max-w-5xl gap-10 px-5 py-12 md:grid-cols-2 md:py-20">
-        <div className="flex flex-col justify-center">
-          <span className="text-sm uppercase tracking-widest text-primary">Seu copo ideal</span>
-          <h1 className="mt-2 text-6xl leading-none text-foreground md:text-7xl">{PRODUTO.nome}</h1>
-          <p className="mt-4 text-muted-foreground">{PRODUTO.descricao}</p>
-          <p className="mt-6 text-5xl font-semibold text-foreground">{reais(PRODUTO.preco)}</p>
-          <p className="text-sm text-muted-foreground">+ frete, escolhido abaixo</p>
-        </div>
-        <img src={copo} alt={PRODUTO.nome} width={1101} height={1428} className="mx-auto max-h-[480px] w-auto rounded-md object-contain" />
-      </section>
+    <main className="min-h-screen bg-background bg-hero px-4 py-8 text-foreground sm:py-12">
+      <section className="mx-auto w-full max-w-3xl">
+        <header className="mb-7 text-center">
+          <span className="font-display text-2xl font-black italic tracking-tight text-primary">UFC <span className="text-foreground">REWARDS</span></span>
+          <h1 className="mt-3 font-display text-3xl font-black uppercase sm:text-4xl">Finalize seu resgate</h1>
+          <p className="mt-2 text-sm text-muted-foreground">Seu desafio foi concluído. O copo principal já está liberado por R$ 0,00.</p>
+        </header>
 
-      <section className="mx-auto max-w-xl px-5 pb-20">
-        {enviado ? (
-          <div className="rounded-md border border-border bg-card p-6 text-center">
-            <h2 className="text-4xl text-foreground">Pedido registrado</h2>
-            <p className="mt-2 text-muted-foreground">Total: {reais(total)}. O pagamento por Pix ainda será conectado.</p>
-          </div>
-        ) : (
-          <form onSubmit={onSubmit} className="space-y-6 rounded-md border border-border bg-card p-6">
-            <h2 className="text-4xl text-foreground">Seu pedido</h2>
-            <div className="grid gap-4">
-              <div><Label htmlFor="nome">Nome</Label><Input id="nome" required /></div>
-              <div><Label htmlFor="cep">CEP</Label><Input id="cep" required inputMode="numeric" /></div>
-              <div><Label htmlFor="end">Endereço</Label><Input id="end" required /></div>
+        <nav aria-label="Etapas do checkout" className="mb-7 grid grid-cols-3 gap-2">
+          {etapas.map((nome, i) => <div key={nome} className={cn("flex items-center gap-2 border-b-2 px-1 pb-3 sm:px-3", i === etapa ? "border-primary text-primary" : i < etapa ? "border-primary/50 text-foreground" : "border-white/15 text-muted-foreground")}>
+            <span className={cn("flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-bold", i <= etapa ? "border-primary bg-primary text-white" : "border-white/20")}>{i < etapa ? "✓" : i + 1}</span>
+            <span className="text-[10px] font-bold uppercase tracking-wide sm:text-sm">{nome}</span>
+          </div>)}
+        </nav>
+
+        {enviado ? <div className="rounded-lg border border-primary/40 bg-card p-6 text-center sm:p-9">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/15 text-2xl text-primary">✓</div>
+          <h2 className="mt-4 font-display text-3xl font-black uppercase">Pedido registrado</h2>
+          <p className="mt-2 text-sm text-muted-foreground">Seu pedido foi registrado com total de <strong className="text-foreground">{reais(total)}</strong>.</p>
+          <p className="mt-3 text-xs text-muted-foreground">A confirmação e a cobrança dependem da integração com o meio de pagamento. Nenhum pagamento foi processado nesta etapa.</p>
+        </div> : <form onSubmit={onSubmit} className="space-y-5">
+          {etapa === 0 && <section className="rounded-lg border border-white/10 bg-card p-5 sm:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Etapa 1 de 3</p>
+            <h2 className="mt-1 font-display text-2xl font-black uppercase">Seus dados</h2>
+            <p className="mb-5 mt-1 text-sm text-muted-foreground">Informe seus dados para identificar o pedido.</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="sm:col-span-2"><Label htmlFor="nome">Nome completo</Label><Input id="nome" name="nome" autoComplete="name" placeholder="Digite seu nome completo" required /></div>
+              <div><Label htmlFor="email">E-mail</Label><Input id="email" name="email" type="email" autoComplete="email" placeholder="seu@email.com" required /></div>
+              <div><Label htmlFor="telefone">Celular / WhatsApp</Label><Input id="telefone" name="telefone" type="tel" autoComplete="tel" placeholder="(00) 00000-0000" required /></div>
             </div>
-            <fieldset className="space-y-2">
-              <legend className="mb-2 text-sm text-muted-foreground">Frete</legend>
-              {FRETES.map((f) => (
-                <label key={f.id} className={cn("flex cursor-pointer items-center justify-between rounded-md border p-3", frete === f.id ? "border-primary" : "border-border")}>
-                  <span className="flex items-center gap-2">
-                    <input type="radio" name="frete" checked={frete === f.id} onChange={() => setFrete(f.id)} className="accent-primary" />
-                    {f.nome} <small className="text-muted-foreground">{f.prazo}</small>
-                  </span>
-                  <span>{reais(f.valor)}</span>
-                </label>
-              ))}
+          </section>}
+
+          {etapa === 1 && <section className="rounded-lg border border-white/10 bg-card p-5 sm:p-7">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Etapa 2 de 3</p>
+            <h2 className="mt-1 font-display text-2xl font-black uppercase">Endereço de entrega</h2>
+            <p className="mb-5 mt-1 text-sm text-muted-foreground">Informe onde deseja receber seu copo.</p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div><Label htmlFor="cep">CEP</Label><Input id="cep" name="cep" autoComplete="postal-code" inputMode="numeric" placeholder="00000-000" required /></div>
+              <div><Label htmlFor="estado">Estado (UF)</Label><Input id="estado" name="estado" autoComplete="address-level1" placeholder="Ex.: SP" maxLength={2} required /></div>
+              <div className="sm:col-span-2"><Label htmlFor="endereco">Rua / Avenida</Label><Input id="endereco" name="endereco" autoComplete="street-address" placeholder="Nome da rua ou avenida" required /></div>
+              <div><Label htmlFor="numero">Número</Label><Input id="numero" name="numero" placeholder="Nº" required /></div>
+              <div><Label htmlFor="complemento">Complemento (opcional)</Label><Input id="complemento" name="complemento" placeholder="Apartamento, bloco..." /></div>
+              <div><Label htmlFor="bairro">Bairro</Label><Input id="bairro" name="bairro" required /></div>
+              <div><Label htmlFor="cidade">Cidade</Label><Input id="cidade" name="cidade" autoComplete="address-level2" required /></div>
+            </div>
+            <fieldset className="mt-7 space-y-3">
+              <legend className="mb-3 text-sm font-bold uppercase tracking-wide">Escolha o frete</legend>
+              {FRETES.map((item) => <label key={item.id} className={cn("flex cursor-pointer items-center justify-between gap-3 rounded-md border p-4 transition-colors", frete === item.id ? "border-primary bg-primary/10" : "border-white/10 hover:border-white/30")}>
+                <span className="flex min-w-0 items-center gap-3"><input type="radio" name="frete" value={item.id} checked={frete === item.id} onChange={() => setFrete(item.id)} className="h-4 w-4 accent-primary" />
+                  <span><strong className="block text-sm">{item.nome}</strong><small className="text-xs text-muted-foreground">{item.prazo}</small></span></span>
+                <strong className="shrink-0 text-base">{reais(item.valor)}</strong>
+              </label>)}
             </fieldset>
-            <label className="flex cursor-pointer items-center justify-between rounded-md border border-border p-3">
-              <span className="flex items-center gap-2">
-                <input type="checkbox" checked={adicional} onChange={(e) => setAdicional(e.target.checked)} className="accent-primary" />
-                Adicionar {ADICIONAL.nome} (opcional)
-              </span>
-              <span>+ {reais(ADICIONAL.preco)}</span>
-            </label>
-            <div className="flex items-center justify-between border-t border-border pt-4 text-lg">
-              <span>Total</span><b>{reais(total)}</b>
+          </section>}
+
+          {etapa === 2 && <section className="space-y-5">
+            <div className="rounded-lg border border-white/10 bg-card p-5 sm:p-7">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Etapa 3 de 3</p>
+              <h2 className="mt-1 font-display text-2xl font-black uppercase">Resumo do pedido</h2>
+              <p className="mt-1 text-sm text-muted-foreground">Confira os itens e o valor antes de continuar.</p>
+              <div className="mt-5 flex items-center gap-4 border-b border-white/10 pb-5">
+                <div className="flex h-24 w-20 shrink-0 items-center justify-center bg-black/40"><img src={copo} alt={PRODUTO.nome} className="h-full w-full object-contain" /></div>
+                <div className="min-w-0 flex-1"><strong className="block text-sm">{PRODUTO.nome}</strong><span className="mt-1 block text-xs text-muted-foreground">Prêmio liberado ao concluir o desafio</span><span className="mt-2 inline-block text-xs font-bold uppercase text-emerald-400">Grátis</span></div>
+                <div className="text-right"><span className="block text-xs text-muted-foreground line-through">{reais(PRODUTO.valorOriginal)}</span><strong>{reais(PRODUTO.preco)}</strong></div>
+              </div>
+
+              <div className="mt-5 rounded-md border border-primary/50 bg-primary/5 p-4">
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input type="checkbox" checked={adicional} onChange={(e) => setAdicional(e.target.checked)} className="mt-1 h-4 w-4 shrink-0 accent-primary" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-xs font-black uppercase tracking-wide text-primary">Oferta especial — leve mais um!</span>
+                    <strong className="mt-1 block text-sm">Adicionar outro Copo Térmico UFC 1,15L</strong>
+                    <span className="mt-1 block text-xs text-muted-foreground">Leve uma segunda unidade junto com seu pedido.</span>
+                    <span className="mt-2 flex flex-wrap items-center gap-2"><span className="text-xs text-muted-foreground line-through">{reais(ADICIONAL.precoOriginal)}</span><strong className="text-lg text-primary">{reais(ADICIONAL.preco)}</strong><span className="rounded bg-primary px-2 py-1 text-[10px] font-bold uppercase text-white">Oferta adicional</span></span>
+                  </span>
+                </label>
+              </div>
+
+              <div className="mt-5 space-y-3 text-sm">
+                <div className="flex justify-between gap-3"><span className="text-muted-foreground">Copo do desafio</span><strong>{reais(0)}</strong></div>
+                {adicional && <div className="flex justify-between gap-3"><span className="text-muted-foreground">Copo adicional</span><strong>{reais(ADICIONAL.preco)}</strong></div>}
+                <div className="flex justify-between gap-3"><span className="text-muted-foreground">Entrega — {freteSelecionado.nome}</span><strong>{reais(freteSelecionado.valor)}</strong></div>
+                <div className="flex justify-between gap-3 border-t border-white/10 pt-4 text-lg"><span className="font-bold">Total a pagar</span><strong className="text-primary">{reais(total)}</strong></div>
+              </div>
             </div>
-            <Button type="submit" size="lg" className="w-full uppercase tracking-wider">Finalizar pedido de {reais(total)}</Button>
-          </form>
-        )}
+            <div className="rounded-lg border border-white/10 bg-card p-5 sm:p-6">
+              <h3 className="font-display text-xl font-black uppercase">Pagamento</h3>
+              <div className="mt-3 flex items-center gap-3 rounded-md border border-white/10 p-4">
+                <span className="flex h-10 w-10 items-center justify-center rounded bg-primary/15 text-lg font-bold text-primary">PIX</span>
+                <span><strong className="block text-sm">Pagamento via Pix</strong><small className="text-xs text-muted-foreground">O meio de pagamento será apresentado após a integração do provedor.</small></span>
+              </div>
+              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">O copo principal custa R$ 0,00 por conta da conclusão do desafio. Você paga o frete escolhido e, somente se marcar a oferta, o copo adicional.</p>
+            </div>
+          </section>}
+
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
+            {etapa > 0 ? <Button type="button" variant="outline" size="lg" onClick={() => setEtapa((atual) => atual - 1)} className="sm:min-w-32">Voltar</Button> : <span />}
+            <Button type="submit" size="lg" className="w-full uppercase tracking-wider sm:w-auto sm:min-w-56">{etapa === 2 ? `Confirmar pedido · ${reais(total)}` : "Continuar"}</Button>
+          </div>
+        </form>}
+        <p className="mt-6 text-center text-[10px] text-muted-foreground">UFC Rewards · Confira os valores antes de confirmar.</p>
       </section>
     </main>
   );
