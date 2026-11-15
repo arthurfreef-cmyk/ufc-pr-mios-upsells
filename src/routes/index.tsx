@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useMutation } from "@tanstack/react-query";
 import { gerarPix } from "@/lib/fruitfy.functions";
@@ -34,8 +34,46 @@ function Index() {
   const pagamento = useMutation({ mutationFn: criarPix, retry: false });
   const [quizFeito, setQuizFeito] = useState(false);
   const [dados, setDados] = useState({ nome: "", email: "", cpf: "", telefone: "", cep: "", estado: "", endereco: "", numero: "", complemento: "", bairro: "", cidade: "" });
+  const [cepStatus, setCepStatus] = useState<"idle" | "loading" | "found" | "not-found" | "error">("idle");
   const total = calcularTotal(frete, adicional);
   const freteSelecionado = FRETES.find((item) => item.id === frete) ?? FRETES[0];
+
+  useEffect(() => {
+    const cep = dados.cep.replace(/\\D/g, "");
+    if (cep.length !== 8) {
+      setCepStatus("idle");
+      return;
+    }
+
+    const controller = new AbortController();
+    setCepStatus("loading");
+
+    fetch(`https://viacep.com.br/ws/${cep}/json/`, { signal: controller.signal })
+      .then((response) => {
+        if (!response.ok) throw new Error("Falha na consulta do CEP");
+        return response.json();
+      })
+      .then((resultado) => {
+        if (resultado.erro) {
+          setCepStatus("not-found");
+          return;
+        }
+        setDados((atual) => ({
+          ...atual,
+          estado: resultado.uf ?? "",
+          endereco: resultado.logradouro ?? "",
+          bairro: resultado.bairro ?? "",
+          cidade: resultado.localidade ?? "",
+        }));
+        setCepStatus("found");
+      })
+      .catch((erro: unknown) => {
+        if (erro instanceof Error && erro.name === "AbortError") return;
+        setCepStatus("error");
+      });
+
+    return () => controller.abort();
+  }, [dados.cep]);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -82,7 +120,22 @@ function Index() {
             <h2 className="mt-1 font-display text-2xl font-black uppercase">Endereço de entrega</h2>
             <p className="mb-5 mt-1 text-sm text-muted-foreground">Informe onde deseja receber seu copo.</p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div><Label htmlFor="cep">CEP</Label><Input id="cep" name="cep" autoComplete="postal-code" inputMode="numeric" placeholder="00000-000" value={dados.cep} onChange={(e) => setDados((atual) => ({ ...atual, cep: e.target.value }))} required /></div>
+              <div className="sm:col-span-2">
+                <Label htmlFor="cep">CEP</Label>
+                <Input id="cep" name="cep" autoComplete="postal-code" inputMode="numeric" placeholder="00000-000" maxLength={9} pattern="[0-9]{5}-?[0-9]{3}" value={dados.cep} onChange={(e) => {
+                  const numeros = e.target.value.replace(/\\D/g, "").slice(0, 8);
+                  const cep = numeros.length > 5 ? `${numeros.slice(0, 5)}-${numeros.slice(5)}` : numeros;
+                  if (numeros !== dados.cep.replace(/\\D/g, "")) {
+                    setDados((atual) => ({ ...atual, cep, estado: "", endereco: "", bairro: "", cidade: "" }));
+                    setFrete("pac");
+                  } else {
+                    setDados((atual) => ({ ...atual, cep }));
+                  }
+                }} required />
+                <p aria-live="polite" className={cn("mt-2 text-xs", cepStatus === "found" ? "text-emerald-400" : cepStatus === "not-found" || cepStatus === "error" ? "text-amber-400" : "text-muted-foreground")}>
+                  {cepStatus === "loading" ? "Buscando endereço pelo CEP…" : cepStatus === "found" ? "Endereço encontrado e preenchido automaticamente. Confira e informe o número." : cepStatus === "not-found" ? "CEP não encontrado. Confira os números ou preencha o endereço manualmente." : cepStatus === "error" ? "Não foi possível consultar agora. Você pode preencher o endereço manualmente." : "Digite os 8 números do CEP para preencher rua, bairro, cidade e estado automaticamente."}
+                </p>
+              </div>
               <div><Label htmlFor="estado">Estado (UF)</Label><Input id="estado" name="estado" autoComplete="address-level1" placeholder="Ex.: SP" maxLength={2} value={dados.estado} onChange={(e) => setDados((atual) => ({ ...atual, estado: e.target.value }))} required /></div>
               <div className="sm:col-span-2"><Label htmlFor="endereco">Rua / Avenida</Label><Input id="endereco" name="endereco" autoComplete="street-address" placeholder="Nome da rua ou avenida" value={dados.endereco} onChange={(e) => setDados((atual) => ({ ...atual, endereco: e.target.value }))} required /></div>
               <div><Label htmlFor="numero">Número</Label><Input id="numero" name="numero" placeholder="Nº" value={dados.numero} onChange={(e) => setDados((atual) => ({ ...atual, numero: e.target.value }))} required /></div>
