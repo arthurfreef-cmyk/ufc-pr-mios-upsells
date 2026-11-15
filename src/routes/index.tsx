@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { Quiz } from "@/components/Quiz";
 import { PRODUTO, FRETES, ADICIONAL, calcularTotal, reais, type FreteId } from "@/lib/pedido";
+import { cpfValido } from "@/lib/fruitfy";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [
@@ -35,6 +36,7 @@ function Index() {
   const [quizFeito, setQuizFeito] = useState(false);
   const [dados, setDados] = useState({ nome: "", email: "", cpf: "", telefone: "", cep: "", estado: "", endereco: "", numero: "", complemento: "", bairro: "", cidade: "" });
   const [cepStatus, setCepStatus] = useState<"idle" | "loading" | "found" | "not-found" | "error">("idle");
+  const [cpfErro, setCpfErro] = useState("");
   const total = calcularTotal(frete, adicional);
   const freteSelecionado = FRETES.find((item) => item.id === frete) ?? FRETES[0];
 
@@ -111,7 +113,7 @@ function Index() {
               <div className="sm:col-span-2"><Label htmlFor="nome">Nome completo</Label><Input id="nome" name="nome" autoComplete="name" placeholder="Digite seu nome completo" value={dados.nome} onChange={(e) => setDados((atual) => ({ ...atual, nome: e.target.value }))} required /></div>
               <div><Label htmlFor="email">E-mail</Label><Input id="email" name="email" type="email" autoComplete="email" placeholder="seu@email.com" value={dados.email} onChange={(e) => setDados((atual) => ({ ...atual, email: e.target.value }))} required /></div>
               <div><Label htmlFor="telefone">Celular / WhatsApp</Label><Input id="telefone" name="telefone" type="tel" autoComplete="tel" placeholder="(00) 00000-0000" value={dados.telefone} onChange={(e) => setDados((atual) => ({ ...atual, telefone: e.target.value }))} required /></div>
-              <div><Label htmlFor="cpf">CPF</Label><Input id="cpf" name="cpf" inputMode="numeric" placeholder="00000000000" pattern="[0-9]{11}" maxLength={11} value={dados.cpf} onChange={(e) => setDados((atual) => ({ ...atual, cpf: e.target.value.replace(/\D/g, "") }))} required /></div>
+              <div><Label htmlFor="cpf">CPF</Label><Input id="cpf" name="cpf" inputMode="numeric" autoComplete="off" placeholder="000.000.000-00" maxLength={14} value={dados.cpf.replace(/\D/g, "").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2")} aria-invalid={Boolean(cpfErro)} aria-describedby={cpfErro ? "cpf-error" : undefined} onChange={(e) => { setDados((atual) => ({ ...atual, cpf: e.target.value.replace(/\D/g, "").slice(0, 11) })); setCpfErro(""); }} required />{cpfErro && <p id="cpf-error" role="alert" className="mt-1 text-xs text-destructive">{cpfErro}</p>}</div>
             </div>
           </section>}
 
