@@ -134,7 +134,7 @@ function Index() {
               <h3 className="font-display text-xl font-black uppercase">Pagamento</h3>
               <div className="mt-3 flex items-center gap-3 rounded-md border border-white/10 p-4">
                 <span className="flex h-10 w-10 items-center justify-center rounded bg-primary/15 text-lg font-bold text-primary">PIX</span>
-                <span><strong className="block text-sm">Pagamento via Pix · Fruitfy</strong><small className="text-xs text-muted-foreground">QR Code e código Pix copia e cola.</small></span>
+                <span><strong className="block text-sm">Pagamento via Pix</strong><small className="text-xs text-muted-foreground">QR Code e código Pix copia e cola.</small></span>
               </div>
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">O copo principal custa R$ 0,00 por conta da conclusão do desafio. Você paga o frete escolhido e, somente se marcar a oferta, o copo adicional.</p>
             </div>
