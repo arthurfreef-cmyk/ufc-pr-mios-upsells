@@ -43,7 +43,17 @@ export function Quiz({ onFinish }: QuizProps) {
         {q.options.map((opt) => (
           <Button key={opt.label} variant="outline" size="lg" className="h-auto flex-col items-stretch gap-2 p-3 text-left text-base"
             onClick={() => (step + 1 >= QUIZ.length ? onFinish() : setStep(step + 1))}>
-            {opt.img && <img src={opt.img} alt={opt.label} className="aspect-[4/3] w-full rounded-sm object-cover" />}
+            {opt.img && (
+              <span className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-sm bg-muted/40 p-2">
+                <img
+                  src={opt.img}
+                  alt={opt.label}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-contain object-center"
+                />
+              </span>
+            )}
             <span className="px-1 py-1">{opt.label}</span>
           </Button>
         ))}
