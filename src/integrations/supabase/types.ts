@@ -24,7 +24,9 @@ export type Database = {
           customer: Json
           deleted_at: string | null
           id: string
+          offer_id: string | null
           paid_at: string | null
+          parent_order_id: string | null
           pix_code: string | null
           provider_order_id: string | null
           session_id: string
@@ -41,7 +43,9 @@ export type Database = {
           customer: Json
           deleted_at?: string | null
           id?: string
+          offer_id?: string | null
           paid_at?: string | null
+          parent_order_id?: string | null
           pix_code?: string | null
           provider_order_id?: string | null
           session_id: string
@@ -58,7 +62,9 @@ export type Database = {
           customer?: Json
           deleted_at?: string | null
           id?: string
+          offer_id?: string | null
           paid_at?: string | null
+          parent_order_id?: string | null
           pix_code?: string | null
           provider_order_id?: string | null
           session_id?: string
@@ -66,7 +72,15 @@ export type Database = {
           status?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fruitfy_orders_parent_order_id_fkey"
+            columns: ["parent_order_id"]
+            isOneToOne: false
+            referencedRelation: "fruitfy_orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

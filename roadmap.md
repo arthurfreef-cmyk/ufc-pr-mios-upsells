@@ -4,3 +4,5 @@
 - [x] Validar testes e fluxo real de geração de Pix — QR Code real exibido, pedido salvo e consulta retornou waiting_payment; 16 testes passaram.
 - [ ] Verificar um pagamento efetivamente concluído — depende de pagamento real, não executado nesta integração.
 - [ ] Configurar a URL do webhook no painel Fruitfy após publicação — depende do usuário.
+- [ ] Criar oferta opcional do kit original de 2 copos por R$ 34,90 após pagamento confirmado, com Pix separado e recusa livre.
+- [ ] Validar acesso protegido, valor do kit e navegação pós-pagamento.
