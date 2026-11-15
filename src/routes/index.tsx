@@ -28,6 +28,7 @@ function Index() {
   const [etapa, setEtapa] = useState(0);
   const [enviado, setEnviado] = useState(false);
   const [quizFeito, setQuizFeito] = useState(false);
+  const [dados, setDados] = useState({ nome: "", email: "", telefone: "", cep: "", estado: "", endereco: "", numero: "", complemento: "", bairro: "", cidade: "" });
   const total = calcularTotal(frete, adicional);
   const freteSelecionado = FRETES.find((item) => item.id === frete)!;
 
@@ -68,9 +69,9 @@ function Index() {
             <h2 className="mt-1 font-display text-2xl font-black uppercase">Seus dados</h2>
             <p className="mb-5 mt-1 text-sm text-muted-foreground">Informe seus dados para identificar o pedido.</p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="sm:col-span-2"><Label htmlFor="nome">Nome completo</Label><Input id="nome" name="nome" autoComplete="name" placeholder="Digite seu nome completo" required /></div>
-              <div><Label htmlFor="email">E-mail</Label><Input id="email" name="email" type="email" autoComplete="email" placeholder="seu@email.com" required /></div>
-              <div><Label htmlFor="telefone">Celular / WhatsApp</Label><Input id="telefone" name="telefone" type="tel" autoComplete="tel" placeholder="(00) 00000-0000" required /></div>
+              <div className="sm:col-span-2"><Label htmlFor="nome">Nome completo</Label><Input id="nome" name="nome" autoComplete="name" placeholder="Digite seu nome completo" value={dados.nome} onChange={(e) => setDados((atual) => ({ ...atual, nome: e.target.value }))} required /></div>
+              <div><Label htmlFor="email">E-mail</Label><Input id="email" name="email" type="email" autoComplete="email" placeholder="seu@email.com" value={dados.email} onChange={(e) => setDados((atual) => ({ ...atual, email: e.target.value }))} required /></div>
+              <div><Label htmlFor="telefone">Celular / WhatsApp</Label><Input id="telefone" name="telefone" type="tel" autoComplete="tel" placeholder="(00) 00000-0000" value={dados.telefone} onChange={(e) => setDados((atual) => ({ ...atual, telefone: e.target.value }))} required /></div>
             </div>
           </section>}
 
@@ -79,13 +80,13 @@ function Index() {
             <h2 className="mt-1 font-display text-2xl font-black uppercase">Endereço de entrega</h2>
             <p className="mb-5 mt-1 text-sm text-muted-foreground">Informe onde deseja receber seu copo.</p>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div><Label htmlFor="cep">CEP</Label><Input id="cep" name="cep" autoComplete="postal-code" inputMode="numeric" placeholder="00000-000" required /></div>
-              <div><Label htmlFor="estado">Estado (UF)</Label><Input id="estado" name="estado" autoComplete="address-level1" placeholder="Ex.: SP" maxLength={2} required /></div>
-              <div className="sm:col-span-2"><Label htmlFor="endereco">Rua / Avenida</Label><Input id="endereco" name="endereco" autoComplete="street-address" placeholder="Nome da rua ou avenida" required /></div>
-              <div><Label htmlFor="numero">Número</Label><Input id="numero" name="numero" placeholder="Nº" required /></div>
-              <div><Label htmlFor="complemento">Complemento (opcional)</Label><Input id="complemento" name="complemento" placeholder="Apartamento, bloco..." /></div>
-              <div><Label htmlFor="bairro">Bairro</Label><Input id="bairro" name="bairro" required /></div>
-              <div><Label htmlFor="cidade">Cidade</Label><Input id="cidade" name="cidade" autoComplete="address-level2" required /></div>
+              <div><Label htmlFor="cep">CEP</Label><Input id="cep" name="cep" autoComplete="postal-code" inputMode="numeric" placeholder="00000-000" value={dados.cep} onChange={(e) => setDados((atual) => ({ ...atual, cep: e.target.value }))} required /></div>
+              <div><Label htmlFor="estado">Estado (UF)</Label><Input id="estado" name="estado" autoComplete="address-level1" placeholder="Ex.: SP" maxLength={2} value={dados.estado} onChange={(e) => setDados((atual) => ({ ...atual, estado: e.target.value }))} required /></div>
+              <div className="sm:col-span-2"><Label htmlFor="endereco">Rua / Avenida</Label><Input id="endereco" name="endereco" autoComplete="street-address" placeholder="Nome da rua ou avenida" value={dados.endereco} onChange={(e) => setDados((atual) => ({ ...atual, endereco: e.target.value }))} required /></div>
+              <div><Label htmlFor="numero">Número</Label><Input id="numero" name="numero" placeholder="Nº" value={dados.numero} onChange={(e) => setDados((atual) => ({ ...atual, numero: e.target.value }))} required /></div>
+              <div><Label htmlFor="complemento">Complemento (opcional)</Label><Input id="complemento" name="complemento" placeholder="Apartamento, bloco..." value={dados.complemento} onChange={(e) => setDados((atual) => ({ ...atual, complemento: e.target.value }))} /></div>
+              <div><Label htmlFor="bairro">Bairro</Label><Input id="bairro" name="bairro" value={dados.bairro} onChange={(e) => setDados((atual) => ({ ...atual, bairro: e.target.value }))} required /></div>
+              <div><Label htmlFor="cidade">Cidade</Label><Input id="cidade" name="cidade" autoComplete="address-level2" value={dados.cidade} onChange={(e) => setDados((atual) => ({ ...atual, cidade: e.target.value }))} required /></div>
             </div>
             <fieldset className="mt-7 space-y-3">
               <legend className="mb-3 text-sm font-bold uppercase tracking-wide">Escolha o frete</legend>
