@@ -180,8 +180,8 @@ export function Quiz({ onFinish }: QuizProps) {
           </div>
         </div>
       ) : q ? (
-        <div className="mx-auto flex min-h-[calc(100svh-130px)] max-w-2xl flex-col items-center justify-center py-8 sm:py-12">
-          <div className="mb-7 w-full max-w-xl">
+        <div className="mx-auto flex min-h-[calc(100svh-130px)] max-w-3xl flex-col items-center justify-center py-9 sm:py-14">
+          <div className="mb-8 w-full max-w-2xl">
             <div className="mb-2 flex items-center justify-between text-[9px] font-bold uppercase tracking-[0.22em] text-white/50">
               <span>Desafio UFC <span className="mx-2 text-primary">•</span> Pergunta {step + 1} de {QUIZ.length}</span>
               <span className="text-primary">{progress}%</span>
@@ -189,20 +189,20 @@ export function Quiz({ onFinish }: QuizProps) {
             <div className="h-[3px] w-full bg-white/10"><div className="h-full bg-primary shadow-[0_0_10px_rgba(220,0,18,.7)] transition-all duration-300" style={{ width: `${progress}%` }} /></div>
           </div>
 
-          <div className="w-full max-w-xl border-l-2 border-primary bg-[#090909]/95 px-4 py-5 text-left shadow-[0_12px_50px_rgba(0,0,0,.45)] sm:px-7 sm:py-7">
+          <div className="w-full max-w-2xl border-l-2 border-primary bg-[#090909]/95 px-5 py-6 text-left shadow-[0_12px_50px_rgba(0,0,0,.45)] sm:px-8 sm:py-8">
             <div className="mb-3 flex items-center gap-2">
               <span className="h-[2px] w-6 bg-primary" />
               <span className="text-[9px] font-bold uppercase tracking-[0.28em] text-primary">{q.kicker}</span>
             </div>
             <h2 className="max-w-lg font-display text-2xl font-bold uppercase leading-[1.08] text-white sm:text-3xl md:text-4xl">{q.text}</h2>
 
-            <div className={q.options.some((opt) => opt.img) ? "mt-6 grid grid-cols-2 gap-2.5 sm:gap-3" : "mt-6 grid grid-cols-1 gap-2"}>
+            <div className={q.options.some((opt) => opt.img) ? "mt-7 grid grid-cols-2 gap-3 sm:gap-4" : "mt-7 grid grid-cols-1 gap-2.5"}>
               {q.options.map((opt, index) => {
                 const active = selected === opt.label;
                 return (
                   <button key={opt.label} type="button" disabled={!!selected} onClick={() => setSelected(opt.label)}
-                    className={`group relative flex min-w-0 flex-col overflow-hidden border text-left transition-all duration-150 ${active ? "border-primary bg-primary/15 shadow-[0_0_18px_rgba(220,0,18,.2)]" : "border-white/10 bg-[#111] hover:border-primary/70 hover:bg-[#191919]"} ${opt.img ? "p-2" : "min-h-11 flex-row items-center gap-3 px-3 py-3 sm:px-4"}`}>
-                    {opt.img && <span className="flex aspect-[5/3] w-full items-center justify-center overflow-hidden bg-black"><img src={opt.img} alt={opt.label} loading="lazy" decoding="async" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" /></span>}
+                    className={`group relative flex min-w-0 flex-col overflow-hidden border text-left transition-all duration-150 ${active ? "border-primary bg-primary/15 shadow-[0_0_18px_rgba(220,0,18,.2)]" : "border-white/10 bg-[#111] hover:border-primary/70 hover:bg-[#191919]"} ${opt.img ? "p-2.5 sm:p-3" : "min-h-12 flex-row items-center gap-3 px-4 py-3.5 sm:px-5 sm:py-4"}`}>
+                    {opt.img && <span className="flex aspect-[5/3] w-full items-center justify-center overflow-hidden bg-black"><img src={opt.img} alt={opt.label} loading="lazy" decoding="async" className="h-full w-full object-contain p-1 transition-transform duration-300 group-hover:scale-[1.02]" /></span>}
                     <span className={`flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-white sm:text-sm ${opt.img ? "px-1 pb-1 pt-2" : ""}`}>
                       <span className={`flex h-5 w-5 shrink-0 items-center justify-center border text-[9px] ${active ? "border-primary bg-primary text-white" : "border-white/20 text-white/50"}`}>{active ? "✓" : String.fromCharCode(65 + index)}</span>
                       {opt.label}
