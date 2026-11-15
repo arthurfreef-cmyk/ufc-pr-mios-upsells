@@ -199,7 +199,7 @@ function Index() {
                     <span className="block text-xs font-black uppercase tracking-wide text-primary">Oferta especial — leve mais um!</span>
                     <strong className="mt-1 block text-sm">Adicionar outro Copo Térmico UFC 1,15L</strong>
                     <span className="mt-1 block text-xs text-muted-foreground">Leve uma segunda unidade junto com seu pedido.</span>
-                    <span className="mt-2 flex flex-wrap items-center gap-2"><span className="text-xs text-muted-foreground line-through">{reais(ADICIONAL.precoOriginal)}</span><strong className="text-lg text-primary">{reais(ADICIONAL.preco)}</strong><span className="rounded bg-primary px-2 py-1 text-[10px] font-bold uppercase text-white">Oferta adicional</span></span>
+                    <span className="mt-2 flex flex-wrap items-center gap-2"><strong className="text-lg text-primary">{reais(ADICIONAL.preco)}</strong><span className="rounded bg-primary px-2 py-1 text-[10px] font-bold uppercase text-white">Oferta adicional</span></span>
                   </span>
                 </label>
               </div>
