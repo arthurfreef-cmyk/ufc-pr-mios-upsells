@@ -92,7 +92,11 @@ function Index() {
       endereco: { cep: dados.cep, estado: dados.estado, endereco: dados.endereco, numero: dados.numero, complemento: dados.complemento, bairro: dados.bairro, cidade: dados.cidade } } });
   }
 
-  if (!quizFeito) return <main className="flex min-h-screen items-center bg-background bg-hero"><section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => setQuizFeito(true)} /></section></main>;
+  if (!quizFeito) return <main className="flex min-h-screen items-center bg-background bg-hero"><section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => {
+      setQuizFeito(true);
+      const pixel = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+      if (typeof pixel === "function") pixel("track", "InitiateCheckout", { currency: "BRL", value: total });
+    }} /></section></main>;
 
   return (
     <main className="min-h-screen bg-background bg-hero px-4 py-8 text-foreground sm:py-12">
