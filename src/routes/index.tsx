@@ -148,17 +148,20 @@ function Index() {
               {FRETES.map((item) => <label key={item.id} className={cn("flex cursor-pointer items-center justify-between gap-3 rounded-md border p-4 transition-colors", frete === item.id ? "border-primary bg-primary/10" : "border-white/10 hover:border-white/30")}>
                 <span className="flex min-w-0 items-center gap-3">
                   <input type="radio" name="frete" value={item.id} checked={frete === item.id} onChange={() => setFrete(item.id)} className="h-4 w-4 shrink-0 accent-primary" />
-                  <img
-                    src={item.id === "pac"
-                      ? "https://www.correios.com.br/enviar/precisa-de-ajuda/imagens/correios-de-a-a-z/simbolos-remessa-postal/icones_guia_pac_azul_300.png/@@images/image"
-                      : "https://www.correios.com.br/enviar/precisa-de-ajuda/imagens/correios-de-a-a-z/simbolos-remessa-postal/icones_guia_sedex_preto.png/@@images/image"}
-                    alt={`Logo oficial ${item.nome} dos Correios`}
-                    className="h-12 w-24 shrink-0 object-contain"
-                    loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                  />
+                  {item.id === "sedex" ? (
+                    <img
+                      src="https://www.correios.com.br/enviar/precisa-de-ajuda/imagens/correios-de-a-a-z/simbolos-remessa-postal/icones_guia_sedex_preto.png/@@images/image"
+                      alt="Logo oficial SEDEX dos Correios"
+                      className="h-12 w-24 shrink-0 object-contain"
+                      loading="eager"
+                      fetchPriority="high"
+                      decoding="async"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      onError={(event) => { event.currentTarget.style.display = "none"; }}
+                    />
+                  ) : (
+                    <span aria-label="PAC" className="flex h-10 w-20 shrink-0 items-center justify-center font-sans text-xl font-black italic tracking-tight text-[#00529b]">PAC</span>
+                  )}
                   <span className="min-w-0"><strong className="block text-sm">{item.nome}</strong><small className="text-xs text-muted-foreground">{item.prazo}</small></span>
                 </span>
                 <strong className="shrink-0 text-base">{reais(item.valor)}</strong>
