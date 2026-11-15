@@ -31,3 +31,6 @@ use the editor.
 
 - Fruitfy one-time Pix generation uses a server function with server-calculated amounts and a server-only token; no payment is marked paid without verified provider confirmation.
 - Generate QR images locally from the provider's returned EMV Pix payload to avoid sending payment data to third-party image services.
+- Persist guest checkout orders in a server-only RLS-locked table and scope customer status queries by an HttpOnly session cookie, so public identifiers never expose orders or addresses.
+- Treat unsigned Fruitfy webhooks only as lookup hints; apply status from the authenticated order lookup after matching provider UUID and amounts, so forged callback bodies cannot mark orders paid.
+- Use a single /api prefix for Fruitfy HTTP paths because the uploaded OpenAPI duplicates it between server and path declarations.

@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX fruitfy_orders_unique_session_idx ON public.fruitfy_orders(session_id);

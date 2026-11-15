@@ -1,3 +1,6 @@
-- [x] Usar o ID de produto Fruitfy fornecido na cobrança Pix e verificar a resposta real.
-- [x] Informar o bloqueio retornado pela Fruitfy: HTTP 404, Recurso não encontrado.
-- [ ] Verificar QR Code e copia e cola com uma cobrança real — bloqueado pela resposta 404 da Fruitfy; é necessário confirmar o endpoint de produção e os IDs de loja/produto.
+- [x] Corrigir o endpoint e o corpo da cobrança conforme o OpenAPI enviado.
+- [x] Salvar pedido e endereço vinculados à cobrança, com acesso privado.
+- [x] Integrar consulta de pagamento e webhook com confirmação pela API Fruitfy — evento pendente aceito, loja inválida rejeitada.
+- [x] Validar testes e fluxo real de geração de Pix — QR Code real exibido, pedido salvo e consulta retornou waiting_payment; 16 testes passaram.
+- [ ] Verificar um pagamento efetivamente concluído — depende de pagamento real, não executado nesta integração.
+- [ ] Configurar a URL do webhook no painel Fruitfy após publicação — depende do usuário.

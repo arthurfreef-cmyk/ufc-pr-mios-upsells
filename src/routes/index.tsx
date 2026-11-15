@@ -42,7 +42,8 @@ function Index() {
     if (etapa < 2) {
       setEtapa((atual) => atual + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } else if (!pagamento.isPending) pagamento.mutate({ data: { nome: dados.nome, email: dados.email, cpf: dados.cpf, telefone: dados.telefone, frete, adicional } });
+    } else if (!pagamento.isPending) pagamento.mutate({ data: { nome: dados.nome, email: dados.email, cpf: dados.cpf, telefone: dados.telefone, frete, adicional,
+      endereco: { cep: dados.cep, estado: dados.estado, endereco: dados.endereco, numero: dados.numero, complemento: dados.complemento, bairro: dados.bairro, cidade: dados.cidade } } });
   }
 
   if (!quizFeito) return <main className="flex min-h-screen items-center bg-background bg-hero"><section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => setQuizFeito(true)} /></section></main>;

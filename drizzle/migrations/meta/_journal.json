@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794715430195,
+      "tag": "0000_create_fruitfy_orders",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794715505611,
+      "tag": "0001_prevent_duplicate_guest_charges",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794715612576,
+      "tag": "0002_allow_retry_rejected_charge",
+      "breakpoints": true
+    }
+  ]
+}

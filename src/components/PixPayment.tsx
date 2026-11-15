@@ -5,9 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { reais } from "@/lib/pedido";
 import type { PixCharge } from "@/lib/fruitfy";
+import { useServerFn } from "@tanstack/react-start";
+import { useQuery } from "@tanstack/react-query";
+import { consultarPagamento } from "@/lib/fruitfy.functions";
 
 export interface PixPaymentProps { pagamento: PixCharge }
 export function PixPayment({ pagamento }: PixPaymentProps) {
+  const consultar = useServerFn(consultarPagamento);
+  const confirmacao = useQuery({
+    queryKey: ["pagamento", pagamento.pedidoId],
+    queryFn: () => consultar({ data: { pedidoId: pagamento.pedidoId } }),
+    refetchInterval: (query) => ["paid", "canceled", "refunded", "failed", "refused", "chargeback"].includes(query.state.data?.status ?? "") ? false : 20000,
+    retry: false,
+  });
   const [imagem, setImagem] = useState("");
   const [copiado, setCopiado] = useState(false);
   const [erro, setErro] = useState("");
@@ -22,6 +32,16 @@ export function PixPayment({ pagamento }: PixPaymentProps) {
     try { await navigator.clipboard.writeText(pagamento.codigo); setCopiado(true); }
     catch { setErro("Selecione e copie o código no campo abaixo."); }
   }
+  if (confirmacao.data?.status === "paid") return <section className="space-y-4 border border-border bg-card p-7 text-center">
+    <Check className="mx-auto h-12 w-12 text-primary" />
+    <h2 className="font-display text-3xl font-black uppercase">Pagamento confirmado</h2>
+    <p>Seu pedido de {reais(pagamento.total)} foi pago e está registrado.</p>
+  </section>;
+  const encerrado = ["canceled", "refunded", "failed", "refused", "chargeback", "partial_refunded"].includes(confirmacao.data?.status ?? "");
+  if (encerrado) return <section className="space-y-4 border border-border bg-card p-7 text-center">
+    <h2 className="font-display text-3xl font-black uppercase">Pagamento encerrado</h2>
+    <p>Esta cobrança não está disponível para pagamento. Confira o pedido com a loja.</p>
+  </section>;
   return <section className="space-y-5 border border-border bg-card p-5 text-center sm:p-7">
     <h2 className="font-display text-3xl font-black uppercase">Pagamento via Pix</h2>
     <p className="text-xl font-bold text-primary">{reais(pagamento.total)}</p>
@@ -31,6 +51,8 @@ export function PixPayment({ pagamento }: PixPaymentProps) {
     <Input aria-label="Código Pix copia e cola" value={pagamento.codigo} readOnly onFocus={(e) => e.target.select()} />
     <Button type="button" onClick={copiar} className="w-full"><span>{copiado ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}</span>{copiado ? "Código copiado" : "Copiar código Pix"}</Button>
     {erro && <p role="alert" className="text-sm text-destructive">{erro}</p>}
+    {confirmacao.error && <p role="alert" className="text-sm text-destructive">Não foi possível consultar a confirmação agora.</p>}
+    <Button type="button" variant="outline" disabled={confirmacao.isFetching} onClick={() => void confirmacao.refetch()}>Verificar pagamento</Button>
     <p className="text-sm text-muted-foreground">Aguardando pagamento. A geração do Pix não confirma o pagamento nem a entrega.</p>
   </section>;
 }
