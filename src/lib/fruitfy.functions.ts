@@ -14,7 +14,7 @@ export const gerarPix = createServerFn({ method: "POST" })
       .select("id").eq("session_id", session).neq("status", "failed")
       .limit(1);
     if (recentError) throw new Error("Não foi possível verificar seus pedidos anteriores.");
-    if (recent?.length) throw new Error("Já existe uma tentativa nesta sessão. Confira a cobrança na Fruitfy antes de gerar outra.");
+    if (recent?.length) throw new Error("Já existe uma tentativa nesta sessão. Confira a cobrança existente antes de gerar outra.");
     const body = montarCobranca(data);
     const { data: order, error } = await supabaseAdmin.from("fruitfy_orders").insert({
       session_id: session, amount: body.amount,
@@ -31,16 +31,16 @@ export const gerarPix = createServerFn({ method: "POST" })
     // Do not log response bodies: payment providers can echo customer information or credentials.
     if (!response.ok) {
       await supabaseAdmin.from("fruitfy_orders").update({ status: "failed" }).eq("id", order.id);
-      throw new Error(`A Fruitfy recusou a cobrança (HTTP ${response.status}). Confira os dados e a configuração da conta.`);
+      throw new Error(`O serviço de pagamento recusou a cobrança (HTTP ${response.status}). Confira os dados e a configuração da conta.`);
     }
     const result: unknown = await response.json();
     const codigo = extrairCodigoPix(result);
     const uuid = extrairOrderUuid(result);
-    if (!codigo || !uuid) throw new Error("A Fruitfy não retornou código Pix e identificação válidos. Confira a cobrança no painel antes de tentar novamente.");
+    if (!codigo || !uuid) throw new Error("Não foi possível obter os dados válidos do Pix. Confira a cobrança no painel antes de tentar novamente.");
     const { error: saveError } = await supabaseAdmin.from("fruitfy_orders").update({
       provider_order_id: uuid, pix_code: codigo, status: "waiting_payment",
     }).eq("id", order.id);
-    if (saveError) throw new Error("A cobrança foi criada, mas não pôde ser vinculada ao pedido. Confira o painel Fruitfy.");
+    if (saveError) throw new Error("A cobrança foi criada, mas não pôde ser vinculada ao pedido. Confira o painel de pagamentos.");
     return { codigo, total: body.amount / 100, pedidoId: order.id };
   });
 
