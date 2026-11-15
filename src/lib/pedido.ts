@@ -4,7 +4,7 @@ export const FRETES = [
   { id: "pac", nome: "PAC", prazo: "7 a 12 dias úteis", valor: 9.9 },
   { id: "sedex", nome: "SEDEX", prazo: "2 a 5 dias úteis", valor: 19.9 },
 ] as const;
-export const ADICIONAL = { nome: "Copo Térmico UFC 1,15L adicional", precoOriginal: 197, preco: 47.9 } as const;
+export const ADICIONAL = { nome: "Copo Térmico UFC 1,15L adicional", precoOriginal: 197, preco: 29.9 } as const;
 export type FreteId = (typeof FRETES)[number]["id"];
 /** O copo do desafio custa R$ 0; total considera frete e adicional opcional. */
 export function calcularTotal(frete: string, adicional: boolean): number {
