@@ -79,7 +79,13 @@ function Index() {
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (etapa === 0 && !cpfValido(dados.cpf)) {
+      setCpfErro("Confira o CPF informado. Digite os 11 números de um CPF válido.");
+      document.getElementById("cpf")?.focus();
+      return;
+    }
     if (etapa < 2) {
+      setCpfErro("");
       setEtapa((atual) => atual + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (!pagamento.isPending) pagamento.mutate({ data: { nome: dados.nome, email: dados.email, cpf: dados.cpf, telefone: dados.telefone, frete, adicional,
