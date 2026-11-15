@@ -97,11 +97,13 @@ function Index() {
                   <input type="radio" name="frete" value={item.id} checked={frete === item.id} onChange={() => setFrete(item.id)} className="h-4 w-4 shrink-0 accent-primary" />
                   <img
                     src={item.id === "pac"
-                      ? "https://www.correios.com.br/estrutura-da-pagina/precos-e-prazos/imagens/pac.png"
-                      : "https://www.correios.com.br/estrutura-da-pagina/precos-e-prazos/imagens/sedex.png"}
+                      ? "https://www.correios.com.br/estrutura-da-pagina/precos-e-prazos/imagens/PAC.png"
+                      : "https://www.correios.com.br/estrutura-da-pagina/precos-e-prazos/imagens/SEDEX.png"}
                     alt={`Logo oficial ${item.nome} dos Correios`}
                     className="h-9 w-20 shrink-0 object-contain"
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                   />
                   <span className="min-w-0"><strong className="block text-sm">{item.nome}</strong><small className="text-xs text-muted-foreground">{item.prazo}</small></span>
                 </span>
