@@ -22,6 +22,25 @@ export function PixPayment({ pagamento, successUrl = "/upsell" }: PixPaymentProp
   const [copiado, setCopiado] = useState(false);
   const [erro, setErro] = useState("");
   useEffect(() => {
+    const storageKey = `meta_add_payment_info_${pagamento.pedidoId}`;
+    try {
+      if (window.localStorage.getItem(storageKey) !== "1") {
+        const pixel = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+        if (typeof pixel === "function") {
+          pixel("track", "AddPaymentInfo", {
+            value: pagamento.total,
+            currency: "BRL",
+            payment_method: "pix",
+          });
+          window.localStorage.setItem(storageKey, "1");
+        }
+      }
+    } catch {
+      // Tracking storage is optional and must never interrupt Pix display.
+    }
+  }, [pagamento.pedidoId, pagamento.total]);
+
+  useEffect(() => {
     let active = true;
     QRCode.toDataURL(pagamento.codigo, { width: 280, margin: 4, errorCorrectionLevel: "M" })
       .then((url) => { if (active) setImagem(url); })
