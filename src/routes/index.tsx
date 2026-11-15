@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { useMutation } from "@tanstack/react-query";
+import { gerarPix } from "@/lib/fruitfy.functions";
+import { PixPayment } from "@/components/PixPayment";
 import copo from "@/assets/copo.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,18 +30,19 @@ function Index() {
   const [frete, setFrete] = useState<FreteId>("pac");
   const [adicional, setAdicional] = useState(false);
   const [etapa, setEtapa] = useState(0);
-  const [enviado, setEnviado] = useState(false);
+  const criarPix = useServerFn(gerarPix);
+  const pagamento = useMutation({ mutationFn: criarPix, retry: false });
   const [quizFeito, setQuizFeito] = useState(false);
-  const [dados, setDados] = useState({ nome: "", email: "", telefone: "", cep: "", estado: "", endereco: "", numero: "", complemento: "", bairro: "", cidade: "" });
+  const [dados, setDados] = useState({ nome: "", email: "", cpf: "", telefone: "", cep: "", estado: "", endereco: "", numero: "", complemento: "", bairro: "", cidade: "" });
   const total = calcularTotal(frete, adicional);
-  const freteSelecionado = FRETES.find((item) => item.id === frete)!;
+  const freteSelecionado = FRETES.find((item) => item.id === frete) ?? FRETES[0];
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (etapa < 2) {
       setEtapa((atual) => atual + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
-    } else setEnviado(true);
+    } else if (!pagamento.isPending) pagamento.mutate({ data: { nome: dados.nome, email: dados.email, cpf: dados.cpf, telefone: dados.telefone, frete, adicional } });
   }
 
   if (!quizFeito) return <main className="flex min-h-screen items-center bg-background bg-hero"><section className="mx-auto w-full max-w-2xl px-5 py-12"><Quiz onFinish={() => setQuizFeito(true)} /></section></main>;
@@ -58,12 +63,7 @@ function Index() {
           </div>)}
         </nav>
 
-        {enviado ? <div className="rounded-lg border border-primary/40 bg-card p-6 text-center sm:p-9">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/15 text-2xl text-primary">✓</div>
-          <h2 className="mt-4 font-display text-3xl font-black uppercase">Pedido registrado</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Seu pedido foi registrado com total de <strong className="text-foreground">{reais(total)}</strong>.</p>
-          <p className="mt-3 text-xs text-muted-foreground">A confirmação e a cobrança dependem da integração com o meio de pagamento. Nenhum pagamento foi processado nesta etapa.</p>
-        </div> : <form onSubmit={onSubmit} className="space-y-5">
+        {pagamento.data ? <PixPayment pagamento={pagamento.data} /> : <form onSubmit={onSubmit} className="space-y-5">
           {etapa === 0 && <section className="rounded-lg border border-white/10 bg-card p-5 sm:p-7">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Etapa 1 de 3</p>
             <h2 className="mt-1 font-display text-2xl font-black uppercase">Seus dados</h2>
@@ -72,6 +72,7 @@ function Index() {
               <div className="sm:col-span-2"><Label htmlFor="nome">Nome completo</Label><Input id="nome" name="nome" autoComplete="name" placeholder="Digite seu nome completo" value={dados.nome} onChange={(e) => setDados((atual) => ({ ...atual, nome: e.target.value }))} required /></div>
               <div><Label htmlFor="email">E-mail</Label><Input id="email" name="email" type="email" autoComplete="email" placeholder="seu@email.com" value={dados.email} onChange={(e) => setDados((atual) => ({ ...atual, email: e.target.value }))} required /></div>
               <div><Label htmlFor="telefone">Celular / WhatsApp</Label><Input id="telefone" name="telefone" type="tel" autoComplete="tel" placeholder="(00) 00000-0000" value={dados.telefone} onChange={(e) => setDados((atual) => ({ ...atual, telefone: e.target.value }))} required /></div>
+              <div><Label htmlFor="cpf">CPF</Label><Input id="cpf" name="cpf" inputMode="numeric" placeholder="00000000000" pattern="[0-9]{11}" maxLength={11} value={dados.cpf} onChange={(e) => setDados((atual) => ({ ...atual, cpf: e.target.value.replace(/\D/g, "") }))} required /></div>
             </div>
           </section>}
 
@@ -132,16 +133,17 @@ function Index() {
               <h3 className="font-display text-xl font-black uppercase">Pagamento</h3>
               <div className="mt-3 flex items-center gap-3 rounded-md border border-white/10 p-4">
                 <span className="flex h-10 w-10 items-center justify-center rounded bg-primary/15 text-lg font-bold text-primary">PIX</span>
-                <span><strong className="block text-sm">Pagamento via Pix</strong><small className="text-xs text-muted-foreground">O meio de pagamento será apresentado após a integração do provedor.</small></span>
+                <span><strong className="block text-sm">Pagamento via Pix · Fruitfy</strong><small className="text-xs text-muted-foreground">QR Code e código Pix copia e cola.</small></span>
               </div>
               <p className="mt-3 text-xs leading-relaxed text-muted-foreground">O copo principal custa R$ 0,00 por conta da conclusão do desafio. Você paga o frete escolhido e, somente se marcar a oferta, o copo adicional.</p>
             </div>
           </section>}
 
           <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
-            {etapa > 0 ? <Button type="button" variant="outline" size="lg" onClick={() => setEtapa((atual) => atual - 1)} className="sm:min-w-32">Voltar</Button> : <span />}
-            <Button type="submit" size="lg" className="w-full uppercase tracking-wider sm:w-auto sm:min-w-56">{etapa === 2 ? `Confirmar pedido · ${reais(total)}` : "Continuar"}</Button>
+            {etapa > 0 ? <Button type="button" disabled={pagamento.isPending} variant="outline" size="lg" onClick={() => setEtapa((atual) => atual - 1)} className="sm:min-w-32">Voltar</Button> : <span />}
+            <Button type="submit" disabled={pagamento.isPending} size="lg" className="w-full uppercase tracking-wider sm:w-auto sm:min-w-56">{pagamento.isPending ? "Gerando Pix…" : etapa === 2 ? `Gerar Pix · ${reais(total)}` : "Continuar"}</Button>
           </div>
+          {pagamento.error && <p role="alert" className="text-sm text-destructive">{pagamento.error.message}</p>}
         </form>}
         <p className="mt-6 text-center text-[10px] text-muted-foreground">UFC Rewards · Confira os valores antes de confirmar.</p>
       </section>

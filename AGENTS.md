@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Fruitfy one-time Pix generation uses a server function with server-calculated amounts and a server-only token; no payment is marked paid without verified provider confirmation.
+- Generate QR images locally from the provider's returned EMV Pix payload to avoid sending payment data to third-party image services.

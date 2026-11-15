@@ -1,0 +1,3 @@
+- [x] Usar o ID de produto Fruitfy fornecido na cobrança Pix e verificar a resposta real.
+- [x] Informar o bloqueio retornado pela Fruitfy: HTTP 404, Recurso não encontrado.
+- [ ] Verificar QR Code e copia e cola com uma cobrança real — bloqueado pela resposta 404 da Fruitfy; é necessário confirmar o endpoint de produção e os IDs de loja/produto.
