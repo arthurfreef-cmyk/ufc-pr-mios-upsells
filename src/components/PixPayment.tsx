@@ -9,8 +9,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { useQuery } from "@tanstack/react-query";
 import { consultarPagamento } from "@/lib/fruitfy.functions";
 
-export interface PixPaymentProps { pagamento: PixCharge }
-export function PixPayment({ pagamento }: PixPaymentProps) {
+export interface PixPaymentProps { pagamento: PixCharge; successUrl?: string }
+export function PixPayment({ pagamento, successUrl = "/upsell" }: PixPaymentProps) {
   const consultar = useServerFn(consultarPagamento);
   const confirmacao = useQuery({
     queryKey: ["pagamento", pagamento.pedidoId],
@@ -28,6 +28,9 @@ export function PixPayment({ pagamento }: PixPaymentProps) {
       .catch(() => { if (active) setErro("Não foi possível exibir o QR Code. Use o código Pix abaixo."); });
     return () => { active = false; };
   }, [pagamento.codigo]);
+  useEffect(() => {
+    if (confirmacao.data?.status === "paid" && successUrl) window.location.replace(successUrl);
+  }, [confirmacao.data?.status, successUrl]);
   async function copiar() {
     try { await navigator.clipboard.writeText(pagamento.codigo); setCopiado(true); }
     catch { setErro("Selecione e copie o código no campo abaixo."); }
@@ -35,7 +38,7 @@ export function PixPayment({ pagamento }: PixPaymentProps) {
   if (confirmacao.data?.status === "paid") return <section className="space-y-4 border border-border bg-card p-7 text-center">
     <Check className="mx-auto h-12 w-12 text-primary" />
     <h2 className="font-display text-3xl font-black uppercase">Pagamento confirmado</h2>
-    <p>Seu pedido de {reais(pagamento.total)} foi pago e está registrado.</p>
+    <p>Seu pedido de {reais(pagamento.total)} foi pago. Redirecionando…</p>
   </section>;
   const encerrado = ["canceled", "refunded", "failed", "refused", "chargeback", "partial_refunded"].includes(confirmacao.data?.status ?? "");
   if (encerrado) return <section className="space-y-4 border border-border bg-card p-7 text-center">
