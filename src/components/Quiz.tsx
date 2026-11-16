@@ -140,6 +140,27 @@ export function Quiz({ onFinish }: QuizProps) {
           </section>
 
           <section className="mt-12 text-left">
+            <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-primary">// Quem já resgatou</p>
+            <h2 className="mt-3 font-display text-3xl font-black uppercase leading-tight text-white sm:text-4xl">Chegou, e é<br />o copo mesmo.</h2>
+            <div className="mt-6 space-y-3">
+              {[
+                { initials: "CM", quote: "Chegou rapidinho e o gelo realmente dura o dia inteiro. Melhor copo que já tive!", name: "Carlos Mendes", city: "São Paulo, SP" },
+                { initials: "JC", quote: "Usei na academia e no trabalho. Não vaza nada e o tamanho é perfeito.", name: "Juliana Costa", city: "Rio de Janeiro, RJ" },
+                { initials: "RS", quote: "O chaveiro na alça é um detalhe genial. Recomendo demais!", name: "Rafael Silva", city: "Belo Horizonte, MG" },
+              ].map((review) => (
+                <article key={review.initials} className="flex gap-4 border border-white/10 bg-[#111] p-4 sm:p-5">
+                  <div aria-hidden="true" className="flex h-20 w-20 shrink-0 items-center justify-center border border-white/10 bg-white/5 font-display text-2xl font-black text-primary">{review.initials}</div>
+                  <div className="min-w-0">
+                    <div aria-label="5 de 5 estrelas" className="text-lg leading-none tracking-[0.12em] text-primary">★★★★★</div>
+                    <p className="mt-2 text-sm leading-relaxed text-white/80 sm:text-base">{review.quote}</p>
+                    <p className="mt-2 text-sm font-bold text-white">{review.name} <span className="font-normal text-white/55">· {review.city}</span></p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-12 text-left">
             <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-primary">Dúvidas do desafio</p>
             <h2 className="mt-2 font-display text-2xl font-black uppercase text-white">Antes de resgatar.</h2>
             <div className="mt-4 divide-y divide-white/10 border-y border-white/10">
