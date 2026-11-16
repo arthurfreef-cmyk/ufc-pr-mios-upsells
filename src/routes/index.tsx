@@ -107,6 +107,28 @@ function Index() {
           <p className="mt-2 text-sm text-muted-foreground">Seu desafio foi concluído. O copo principal já está liberado por R$ 0,00.</p>
         </header>
 
+        <section aria-labelledby="resgates-title" className="mb-8 border-y border-white/10 py-7">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">// Quem já resgatou</p>
+          <h2 id="resgates-title" className="mt-2 max-w-md font-display text-3xl font-black uppercase leading-tight sm:text-4xl">Chegou, e é o copo mesmo.</h2>
+          <div className="mt-5 space-y-3">
+            {[
+              { initials: "CM", quote: "Chegou rapidinho e o gelo realmente dura o dia inteiro. Melhor copo que já tive!", name: "Carlos Mendes", city: "São Paulo, SP" },
+              { initials: "JC", quote: "Usei na academia e no trabalho. Não vaza nada e o tamanho é perfeito.", name: "Juliana Costa", city: "Rio de Janeiro, RJ" },
+              { initials: "RS", quote: "O chaveiro na alça é um detalhe genial. Recomendo demais!", name: "Rafael Silva", city: "Belo Horizonte, MG" },
+            ].map((review) => (
+              <article key={review.initials} className="flex gap-4 border border-white/10 bg-card p-4 sm:p-5">
+                <div aria-hidden="true" className="flex h-20 w-20 shrink-0 items-center justify-center border border-white/10 bg-white/5 font-display text-2xl font-black text-primary">{review.initials}</div>
+                <div className="min-w-0">
+                  <div aria-label="5 de 5 estrelas" className="text-lg leading-none tracking-[0.12em] text-primary">★★★★★</div>
+                  <p className="mt-2 text-sm leading-relaxed text-foreground/80 sm:text-base">{review.quote}</p>
+                  <p className="mt-2 text-sm font-bold">{review.name} <span className="font-normal text-muted-foreground">· {review.city}</span></p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <p className="mt-7 text-xs font-bold uppercase tracking-[0.2em] text-primary">// Dúvidas do desafio</p>
+        </section>
+
         <nav aria-label="Etapas do checkout" className="mb-7 grid grid-cols-3 gap-2">
           {etapas.map((nome, i) => <div key={nome} className={cn("flex items-center gap-2 border-b-2 px-1 pb-3 sm:px-3", i === etapa ? "border-primary text-primary" : i < etapa ? "border-primary/50 text-foreground" : "border-white/15 text-muted-foreground")}>
             <span className={cn("flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-bold", i <= etapa ? "border-primary bg-primary text-white" : "border-white/20")}>{i < etapa ? "✓" : i + 1}</span>
